@@ -86,7 +86,7 @@ public class AboutScene {
         Label formTitle = new Label("ABOUT US");
         formTitle.setId("formTitle");
 
-        Label formSubtitle = new Label("Come back later...");
+        Label formSubtitle = new Label("Still on development :)");
         
         formSubtitle.setId("formSubtitle");
         titleContainer.getChildren().addAll(formTitle, formSubtitle);
@@ -102,6 +102,7 @@ public class AboutScene {
 
         // Create the scene and set it to the stage
         Scene scene = new Scene(mainLayout, 1280, 720);
+        scene.getStylesheets().add(getClass().getResource("/styles/about.css").toExternalForm());
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();

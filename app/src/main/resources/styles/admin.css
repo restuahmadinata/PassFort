@@ -1,0 +1,81 @@
+@font-face {
+    font-family: 'Fira Code';
+    src: url('/fonts/FiraCode-Regular.ttf');
+}
+
+.root {
+    -fx-font-family: 'Fira Code';
+    font-family: "Fira Code", monospace;
+}
+
+#form {
+    -fx-background-image: url("/images/background.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+
+    /* Standard Property */
+    background-image: url("/images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+/* CSS Form */
+
+#greeting {
+    -fx-text-fill: #A4A4A4;
+    -fx-font-size: 16px;
+
+    /* Standard Property */
+    font-size: 16px;
+}
+
+#formTitle {
+    -fx-text-fill: linear-gradient(to right, white 0%, white 50%, rgba(72, 152, 255) 50%, rgba(72, 152, 255) 100%);
+    -fx-font-size: 64px;
+    -fx-font-weight: bold;
+
+    /* Standard Property */
+    font-size: 64px;
+    font-weight: bold;
+}
+
+#formSubtitle {
+    -fx-text-fill: #A4A4A4;
+    -fx-font-size: 16px;
+
+    /* Standard Property */
+    font-size: 16px;
+}
+
+.adminButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 250px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(29, 29, 45, 0.281), 14, 0, 0, 4);
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+
+    /* Standard Property */
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #3A3E5D;
+    border-color: white;
+    border-width: 2px;
+    border-radius: 10px;
+}
+
+#exit {
+    -fx-background-color: transparent;
+    -fx-text-fill:rgb(118, 118, 250);
+    -fx-font-size: 16px;
+    background-color: transparent;
+    font-size: 16px;
+}

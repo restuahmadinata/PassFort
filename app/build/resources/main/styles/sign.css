@@ -1,0 +1,136 @@
+@font-face {
+    font-family: 'Fira Code';
+    src: url('/fonts/FiraCode-Regular.ttf');
+}
+
+.root {
+    -fx-font-family: 'Fira Code';
+    font-family: "Fira Code", monospace;
+}
+
+#form {
+    -fx-background-image: url("/images/background.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+
+    /* Standard Property */
+    background-image: url("/images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+.fieldLabel {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+
+    /* Standard Property */
+    font-size: 24px;
+}
+
+/* CSS Form */
+
+#greeting {
+    -fx-text-fill: #A4A4A4;
+    -fx-font-size: 16px;
+
+    /* Standard Property */
+    font-size: 16px;
+}
+
+#formTitle {
+    -fx-text-fill: linear-gradient(to right, white 0%, white 50%, rgba(72, 152, 255) 50%, rgba(72, 152, 255) 100%);
+    -fx-font-size: 64px;
+    -fx-font-weight: bold;
+
+    /* Standard Property */
+    font-size: 64px;
+    font-weight: bold;
+}
+
+#formSubtitle {
+    -fx-text-fill: #A4A4A4;
+    -fx-font-size: 16px;
+
+    /* Standard Property */
+    font-size: 16px;
+}
+
+.field {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-background-color: transparent;
+    -fx-border-color: white;
+    -fx-border-width: 0px 0px 1px 0px;
+
+    /* Standard Property */
+    font-size: 20px;
+    background-color: transparent;
+    border-color: white;
+    border-width: 0px 0px 1px 0px;
+}
+
+#showPass {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+    -fx-pref-height: 30px;
+
+    /* Standard Property */
+    background-color: transparent;
+    padding: 10;
+}
+
+#showPass .box {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+    -fx-pref-height: 30px;
+    -fx-pref-width: 30px;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+
+    /* Standard Property */
+    background-color: transparent;
+    padding: 10;
+    border-color: white;
+    border-width: 1px;
+}
+
+#showPass .text {
+    -fx-fill: white;
+    -fx-font-size: 16px;
+
+    /* Standard Property */
+    fill: white;
+    font-size: 16px;
+}
+
+#signButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 36px;
+    -fx-pref-width: 286px;
+    -fx-pref-height: 64px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(29, 29, 45, 0.281), 14, 0, 0, 4);
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+
+    /* Standard Property */
+    font-size: 16px;
+    background-color: #3A3E5D;
+    border-color: white;
+    border-width: 2px;
+    border-radius: 10px;
+}
+
+#loginButton {
+    -fx-background-color: transparent;
+    -fx-text-fill:rgb(118, 118, 250);
+    -fx-font-size: 16px;
+    background-color: transparent;
+    font-size: 16px;
+}
+

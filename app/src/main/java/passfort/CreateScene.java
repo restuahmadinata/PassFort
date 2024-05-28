@@ -187,6 +187,7 @@ public class CreateScene {
 
         // Create the scene and set it to the stage
         Scene scene = new Scene(mainLayout, 1280, 720);
+        scene.getStylesheets().add(getClass().getResource("/styles/create.css").toExternalForm());
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();

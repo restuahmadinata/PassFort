@@ -116,6 +116,7 @@ public class SignScene {
 
         // Create the scene and set it to the stage
         Scene scene = new Scene(loginLayout, 1280, 720);
+        scene.getStylesheets().add(getClass().getResource("/styles/sign.css").toExternalForm());
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();

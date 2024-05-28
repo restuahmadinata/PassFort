@@ -1,6 +1,9 @@
 package passfort;
 
+
+
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -8,6 +11,10 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         SignScene initialScene = new SignScene(primaryStage);
         initialScene.show();
+
+        Image icon = new Image("/images/icon.png");
+        primaryStage.getIcons().add(icon);
+        primaryStage.setTitle("PassFort");
    }
 
    public static void main(String[] args) {

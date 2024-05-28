@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-
 public class GenerateScene {
     private Stage primaryStage;
 
@@ -89,13 +88,12 @@ public class GenerateScene {
         Label formTitle = new Label("Generate");
         formTitle.setId("formTitle");
 
-        Label formSubtitle = new Label("Too lazy to think about your new password? We got you covered!\nBut not now, just wait...");
+        Label formSubtitle = new Label("Too lazy to think about your new password? We got you covered!");
         formSubtitle.setId("formSubtitle");
 
         titleContainer.getChildren().addAll(formTitle, formSubtitle);
         titleContainer.setSpacing(3);
 
-        
         formLayout.getChildren().addAll(titleContainer);
         formLayout.setSpacing(50);
 
@@ -105,6 +103,7 @@ public class GenerateScene {
 
         // Create the scene and set it to the stage
         Scene scene = new Scene(mainLayout, 1280, 720);
+        scene.getStylesheets().add(getClass().getResource("/styles/generate.css").toExternalForm());
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();

@@ -139,6 +139,7 @@ public class DeleteScene {
 
         // Create the scene and set it to the stage
         Scene scene = new Scene(mainLayout, 1280, 720);
+        scene.getStylesheets().add(getClass().getResource("/styles/delete.css").toExternalForm());
         primaryStage.setTitle("PassFort");
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
