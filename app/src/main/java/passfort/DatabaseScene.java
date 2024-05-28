@@ -1,5 +1,6 @@
 package passfort;
 
+
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -76,7 +77,6 @@ public class DatabaseScene {
         // Add items to the menu
         menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, aboutUs, exit);
 
-  
         // Create the form layout
         VBox formLayout = new VBox();
         formLayout.setId("form");
@@ -86,14 +86,15 @@ public class DatabaseScene {
         Label formTitle = new Label("Password Database");
         formTitle.setId("formTitle");
 
-        Label formSubtitle = new Label("Here we collect every single account and password you’ve created!\nStill on development tho :'v");
+        Label formSubtitle = new Label("Still on development :'(");
+        
         formSubtitle.setId("formSubtitle");
         titleContainer.getChildren().addAll(formTitle, formSubtitle);
         titleContainer.setSpacing(3);
 
-        // Add the title and table view to the form layout
+        // Add fields to the form layout
         formLayout.getChildren().addAll(titleContainer);
-        formLayout.setSpacing(20);
+        formLayout.setSpacing(50);
 
         // Add the menu and form layout to the main layout
         mainLayout.setLeft(menu);

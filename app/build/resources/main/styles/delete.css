@@ -83,6 +83,12 @@
     /* Standard Property */
     font-size: 24px;
 }
+#username {
+    -fx-background-color: transparent;
+
+    /* Standard Property */
+    background-color: transparent;
+}
 
 /* CSS Form */
 #formTitle {
@@ -179,6 +185,40 @@
     background-color: transparent;
     border-color: white;
     border-width: 0px 0px 1px 0px;
+}
+
+#showPass {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+    -fx-pref-height: 30px;
+
+    /* Standard Property */
+    background-color: transparent;
+    padding: 10;
+}
+
+#showPass .box {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+    -fx-pref-height: 30px;
+    -fx-pref-width: 30px;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+
+    /* Standard Property */
+    background-color: transparent;
+    padding: 10;
+    border-color: white;
+    border-width: 1px;
+}
+
+#showPass .text {
+    -fx-fill: white;
+    -fx-font-size: 16px;
+
+    /* Standard Property */
+    fill: white;
+    font-size: 16px;
 }
 
 #addButton {

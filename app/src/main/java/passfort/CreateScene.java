@@ -1,6 +1,5 @@
 package passfort;
 
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -63,7 +62,10 @@ public class CreateScene {
         });
 
         Button exit = new Button("EXIT");
-        exit.setOnAction(v -> Platform.exit());
+        exit.setOnAction(v -> {
+            LoginScene loginScene = new LoginScene(primaryStage);
+            loginScene.show();
+        });
 
         newPassword.setId("createMenu");
         updatePassword.getStyleClass().add("menuButton");
@@ -103,19 +105,6 @@ public class CreateScene {
         appComboBox.setId("appBox");
         appComboBox.setPrefWidth(460);
         appComboBox.setPrefHeight(20);
-
-        // Add options to the ComboBox
-        appComboBox.getItems().addAll(
-            "Google",
-            "Facebook",
-            "Instagram",
-            "Twitter",
-            "Wuthering Waves",
-            "Kikir Impact",
-            "Nikke: Goddess Of Victory",
-            "Honkai Star Rail"
-        );
-
         appField.getChildren().addAll(appLabel, appComboBox);
         appField.setSpacing(20);
 

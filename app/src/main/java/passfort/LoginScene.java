@@ -5,16 +5,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import passfort.com.example.controller.ContactController;
 
 public class LoginScene {
     private Stage primaryStage;
+    private ContactController contactController;
 
     public LoginScene(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        this.contactController = new ContactController();
+        this.contactController.createTable(); // Ensure the table is created
     }
 
     public void show() {
-
         // Create the form layout
         VBox loginLayout = new VBox();
         loginLayout.setId("form");
@@ -95,6 +98,33 @@ public class LoginScene {
         Button loginButton = new Button("LOG IN");
         loginButton.setId("loginButton");
 
+        loginButton.setOnAction(v -> {
+            String username = usernameTextField.getText();
+            String password = passwordTextField.getText();
+  
+
+            if (username.isEmpty() || password.isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Input Error", "Semua field harus diisi!");
+            } else {
+                int authResult = authenticate(username, password); // Get the result code
+                if (authResult == 2) {
+                    if (username.equals("admin") && password.equals("ambatukam")) {
+                        showAlert(Alert.AlertType.INFORMATION, "Success", "Admin has been logged in!");
+                        AdminScene adminScene = new AdminScene(primaryStage);
+                        adminScene.show();
+                    } else {
+                        showAlert(Alert.AlertType.INFORMATION, "Success", "User logged in successfully!");
+                        CreateScene createScene = new CreateScene(primaryStage);
+                        createScene.show();
+                    }
+                } else if (authResult == 1) {
+                    showAlert(Alert.AlertType.ERROR, "Input Error", "Wrong password!");
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Input Error", "Akun tidak ditemukan!");
+                }
+            }
+        });
+
         Button signButton = new Button("No account? Sign In!");
         signButton.setId("signButton");
 
@@ -129,12 +159,23 @@ public class LoginScene {
         loginLayout.setSpacing(50);
         loginLayout.setAlignment(Pos.CENTER);
 
-
         // Create the scene and set it to the stage
         Scene scene = new Scene(loginLayout, 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/styles/login.css").toExternalForm());
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private int authenticate(String username, String password) {
+        return contactController.authenticateUser(username, password);
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

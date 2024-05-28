@@ -1,7 +1,6 @@
 package passfort;
 
 
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -64,7 +63,10 @@ public class AboutScene {
         });
 
         Button exit = new Button("EXIT");
-        exit.setOnAction(v -> Platform.exit());
+        exit.setOnAction(v -> {
+            LoginScene loginScene = new LoginScene(primaryStage);
+            loginScene.show();
+        });
 
         newPassword.getStyleClass().add("menuButton");
         updatePassword.getStyleClass().add("menuButton");

@@ -38,11 +38,13 @@ public class AdminScene {
         Button delete = new Button("DELETE\nACCOUNT");
         delete.getStyleClass().add("adminButton");
 
-        Button change = new Button("ADMIN\nACCOUNT");
-        change.getStyleClass().add("adminButton");
+        delete.setOnAction(v -> {
+            AdminThanos adminThanos = new AdminThanos(primaryStage);
+            adminThanos.show();
+        });
 
         HBox buttonContainer = new HBox();
-        buttonContainer.getChildren().addAll(delete, change);
+        buttonContainer.getChildren().addAll(delete);
         buttonContainer.setSpacing(20);
         buttonContainer.setAlignment(Pos.CENTER);
 

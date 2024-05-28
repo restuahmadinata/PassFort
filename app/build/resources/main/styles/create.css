@@ -125,60 +125,52 @@
 }
 
 #appBox .combo-box .list-cell {
-    -fx-background-color: #2D2D45;
-    -fx-text-fill: black;
-
-    background-color: #2D2D45;
+    -fx-text-fill: white; 
 }
 
 #appBox .combo-box .list-view {
-    -fx-background-color: #2D2D45;
-    -fx-text-fill: black; 
+    -fx-background-color: #3A3E5D;
 
     /* Standard Property */
-    background-color: #2D2D45;
-        -fx-text-fill: black; 
+    background-color: #3A3E5D;
 }
 
 #appBox .combo-box .list-cell:filled:selected, #appBox .combo-box .list-cell:filled:hover {
-    -fx-background-color: #2D2D45;
+    -fx-background-color: #3A3E5D;
     -fx-text-fill: white;
 
     /* Standard Property */
-    background-color: transparent;
+    background-color: #3A3E5D;
 }
 
 #appBox .combo-box .arrow-button .arrow {
-    -fx-background-color: #2D2D45;
-    -fx-text-fill: black; 
+    -fx-background-color: blue;
 
     /* Standard Property */
-    background-color: #2D2D45;
+    background-color: white;
 }
 
 #appBox .combo-box-base .combo-box-popup {
-    -fx-background-color: #2D2D45;
-    -fx-text-fill: black; 
+    -fx-background-color: #3A3E5D;
 
     /* Standard Property */
-    background-color: #2D2D45;
+    background-color: #3A3E5D;
 }
 
 #appBox .combo-box-base {
-    -fx-background-color: #2D2D45;
-    -fx-text-fill: black; 
+    -fx-background-color: #3A3E5D;
     -fx-border-color: white;
     -fx-border-width: 0px 0px 1px 0px;
 
     /* Standard Property */
-    background-color: #2D2D45;
+    background-color: #3A3E5D;
     border-color: white;
     border-width: 0px 0px 1px 0px;
 }
 
 #appBox .text {
-    -fx-fill: #b1199d;
-    fill: #b1199d;
+    -fx-fill: white;
+    fill: white;
 }
 
 .field {

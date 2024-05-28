@@ -1,0 +1,108 @@
+package passfort;
+
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+import passfort.com.example.controller.ContactController;
+
+public class AdminThanos {
+    private Stage primaryStage;
+    private ContactController contactController;
+
+    public AdminThanos(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+        this.contactController = new ContactController();
+    }
+
+    public void show() {
+
+        // Create the form layout
+        VBox loginLayout = new VBox();
+        loginLayout.setId("form");
+
+        // Form title
+        VBox titleContainer = new VBox();
+
+        Label greeting = new Label("SUDAH SAATNYA...");
+        greeting.setId("greeting");
+
+        Label formTitle = new Label("ADMIN THANOS MODE");
+        formTitle.setId("formTitle");
+
+        titleContainer.getChildren().addAll(greeting, formTitle);
+        titleContainer.setSpacing(3);
+        titleContainer.setAlignment(Pos.CENTER);
+
+        // Add button
+        Label fieldLabel = new Label("Hilangkan user membandel");
+        fieldLabel.setId("fieldLabel");
+
+        TextField userField = new TextField();
+        userField.setId("userField");
+
+        Button delete = new Button("BITES!");
+        delete.setId("delete");
+        delete.setOnAction(event -> {
+            String username = userField.getText();
+            if (username.isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Input Error", "Username field must not be empty!");
+                return;
+            }
+            try {
+                if (contactController.isUsernameTaken(username)) {
+                    Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                    confirmationAlert.setTitle("Confirm Deletion");
+                    confirmationAlert.setHeaderText(null);
+                    confirmationAlert.setContentText("Are you sure you want to delete the user '" + username + "'?");
+                    ButtonType result = confirmationAlert.showAndWait().orElse(ButtonType.CANCEL);
+                    if (result == ButtonType.OK) {
+                        boolean userDeleted = contactController.deleteUserByUsername(username);
+                        if (userDeleted) {
+                            showAlert(Alert.AlertType.INFORMATION, "Success", "User '" + username + "' has been deleted.");
+                        } else {
+                            showAlert(Alert.AlertType.ERROR, "Error", "Failed to delete user '" + username + "'.");
+                        }
+                    }
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Error", "User '" + username + "' does not exist.");
+                }
+            } catch (Exception e) {
+                showAlert(Alert.AlertType.ERROR, "Database Error", "Could not connect to the database. Please try again later.");
+            }
+        });
+
+        VBox fieldButtonContainer = new VBox();
+        fieldButtonContainer.getChildren().addAll(fieldLabel, userField, delete);
+        fieldButtonContainer.setSpacing(20);
+        fieldButtonContainer.setAlignment(Pos.CENTER);
+
+        Button exit = new Button("Mode Admin Normal");
+        exit.setId("exit");
+        exit.setOnAction(v -> {
+            AdminScene adminScene = new AdminScene(primaryStage);
+            adminScene.show();
+        });
+
+        // Add fields to the form layout
+        loginLayout.getChildren().addAll(titleContainer, fieldButtonContainer, exit);
+        loginLayout.setSpacing(50);
+        loginLayout.setAlignment(Pos.CENTER);
+
+        // Create the scene and set it to the stage
+        Scene scene = new Scene(loginLayout, 1280, 720);
+        scene.getStylesheets().add(getClass().getResource("/styles/adminThanos.css").toExternalForm());
+        primaryStage.setResizable(false);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+}
