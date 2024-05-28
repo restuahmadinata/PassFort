@@ -94,3 +94,108 @@
     /* Standard Property */
     font-size: 16px;
 }
+
+#charField {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-background-color: transparent;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+
+    /* Standard Property */
+    font-size: 24px;
+    background-color: transparent;
+    border-color: white;
+    border-width: 0px 0px 1px 0px;
+}
+
+#charPrompt {
+    -fx-text-fill: #A4A4A4;
+    -fx-font-size: 16px;
+
+    /* Standard Property */
+    font-size: 16px;
+}
+
+.optionLabel {
+    -fx-text-fill: #A4A4A4;
+    -fx-font-size: 24px;
+
+    /* Standard Property */
+    font-size: 24px;
+}
+.optionsBox {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+    -fx-pref-height: 30px;
+
+    /* Standard Property */
+    background-color: transparent;
+    padding: 10;
+}
+
+.optionsBox .box {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+    -fx-pref-height: 30px;
+    -fx-pref-width: 30px;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+
+    /* Standard Property */
+    background-color: transparent;
+    padding: 10;
+    border-color: white;
+    border-width: 1px;
+}
+
+.optionsBox .text {
+    -fx-fill: white;
+    -fx-font-size: 16px;
+
+    /* Standard Property */
+    fill: white;
+    font-size: 16px;
+}
+
+#outputField {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-background-color: transparent;
+    -fx-border-color: white;
+    -fx-border-width: 0px 0px 1px 0px;
+
+    /* Standard Property */
+    font-size: 24px;
+    background-color: transparent;
+    border-color: white;
+    border-width: 0px 0px 1px 0px;
+}
+
+#generateButton {
+    -fx-background-color: #3A3E5D;
+    -fx-text-fill: white;
+    -fx-font-size: 36px;
+    -fx-pref-width: 75px;
+    -fx-pref-height: 64px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(29, 29, 45, 0.281), 14, 0, 0, 4);
+
+    /* Standard Property */
+    font-size: 16px;
+    background-color: #3A3E5D;
+}
+
+#copyButton {
+    -fx-background-color: #3A3E5D;
+    -fx-text-fill: white;
+    -fx-font-size: 36px;
+    -fx-pref-width: 75px;
+    -fx-pref-height: 64px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(29, 29, 45, 0.281), 14, 0, 0, 4);
+
+    /* Standard Property */
+    font-size: 16px;
+    background-color: #3A3E5D;
+}
