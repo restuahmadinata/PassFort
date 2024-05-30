@@ -113,7 +113,7 @@ public class SignScene {
                         showAlert(Alert.AlertType.ERROR, "Registration Error", "Username sudah digunakan");
                     } else {
                         // Insert the user
-                        contactController.insertUser(username, password);
+                        contactController.insertUser(username, password, "Regular");
 
                         // Show a success message
                         showAlert(Alert.AlertType.INFORMATION, "Success", "User signed up successfully!");

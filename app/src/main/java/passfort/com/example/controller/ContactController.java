@@ -16,7 +16,8 @@ public class ContactController {
         String sql = "CREATE TABLE IF NOT EXISTS users ("
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " username TEXT NOT NULL UNIQUE,"
-                + " password TEXT NOT NULL"
+                + " password TEXT NOT NULL,"
+                + " role TEXT NOT NULL"
                 + ");";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -27,12 +28,13 @@ public class ContactController {
         }
     }
 
-    public void insertUser(String username, String password) throws SQLException {
-        String sql = "INSERT INTO users(username, password) VALUES(?, ?)";
+    public void insertUser(String username, String password, String role) throws SQLException {
+        String sql = "INSERT INTO users(username, password, role) VALUES(?, ?, ?)";
         try (Connection conn = DatabaseConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
+            pstmt.setString(3, role);
             pstmt.executeUpdate();
             System.out.println("User data inserted successfully.");
         } catch (SQLException e) {
@@ -144,25 +146,30 @@ public class ContactController {
     }
 
     public ObservableList<User> selectAllUsers() {
-        String sql = "SELECT id, username, password FROM users";
+        String sql = "SELECT id, username, password, role FROM users";
         ObservableList<User> users = FXCollections.observableArrayList();
-
+    
         try (Connection conn = DatabaseConnection.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-
+    
             while (rs.next()) {
-                User user = new User(
-                        rs.getInt("id"),
-                        rs.getString("username"),
-                        rs.getString("password")
-                );
+                int id = rs.getInt("id");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String role = rs.getString("role");
+    
+                User user;
+                if ("Admin".equals(role)) {
+                    user = new Admin(id, username, password);
+                } else {
+                    user = new Regular(id, username, password);
+                }
                 users.add(user);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
         return users;
     }
 
