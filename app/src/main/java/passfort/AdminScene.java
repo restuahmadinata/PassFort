@@ -8,9 +8,11 @@ import javafx.stage.Stage;
 
 public class AdminScene {
     private Stage primaryStage;
+    private int authResult;
 
-    public AdminScene(Stage primaryStage) {
+    public AdminScene(Stage primaryStage, int authResult) {
         this.primaryStage = primaryStage;
+        this.authResult = authResult;
     }
 
     public void show() {
@@ -39,7 +41,7 @@ public class AdminScene {
         delete.getStyleClass().add("adminButton");
 
         delete.setOnAction(v -> {
-            AdminThanos adminThanos = new AdminThanos(primaryStage);
+            AdminThanos adminThanos = new AdminThanos(primaryStage, authResult);
             adminThanos.show();
         });
 
@@ -51,7 +53,7 @@ public class AdminScene {
         Button exit = new Button("Jadi kroco");
         exit.setId("exit");
         exit.setOnAction(v -> {
-            LoginScene loginScene = new LoginScene(primaryStage);
+            LoginScene loginScene = new LoginScene(primaryStage, authResult);
             loginScene.show();
         });
 

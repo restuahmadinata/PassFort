@@ -4,66 +4,96 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import passfort.com.example.controller.ContactController;
+
+import java.sql.SQLException;
+
+import org.sqlite.SQLiteException;
 
 public class CreateScene {
-    private Stage primaryStage;
 
-    public CreateScene(Stage primaryStage) {
+    private Stage primaryStage;
+    private int userId;
+
+    public CreateScene(Stage primaryStage, int userId) {
         this.primaryStage = primaryStage;
+        this.userId = userId;
     }
 
     public void show() {
-        // Create the main layout
         BorderPane mainLayout = new BorderPane();
 
-        // Create the menu
         VBox menu = new VBox();
         menu.setSpacing(10);
         menu.setId("menu");
 
-        // Create menu items
         Label menuTitle = new Label("MENU");
         menuTitle.setId("menuTitle");
 
         Button newPassword = new Button("→ New Password");
         newPassword.setOnAction(v -> {
-            CreateScene createScene = new CreateScene(primaryStage);
+            CreateScene createScene = new CreateScene(primaryStage, userId);
             createScene.show();
         });
 
         Button updatePassword = new Button("→ Update Password");
         updatePassword.setOnAction(v -> {
-            UpdateScene updateScene = new UpdateScene(primaryStage);
-            updateScene.show();
+            UpdateScene updateScene = new UpdateScene(primaryStage, userId);
+            try {
+                updateScene.show();
+            } catch (SQLiteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         });
 
         Button deletePassword = new Button("→ Delete Password");
         deletePassword.setOnAction(v -> {
-            DeleteScene deleteScene = new DeleteScene(primaryStage);
-            deleteScene.show();
+            DeleteScene deleteScene = new DeleteScene(primaryStage, userId);
+            try {
+                deleteScene.show();
+            } catch (SQLiteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         });
 
         Button generatePassword = new Button("→ Generate Password");
         generatePassword.setOnAction(v -> {
-            GenerateScene generateScene = new GenerateScene(primaryStage);
-            generateScene.show();
+            GenerateScene generateScene = new GenerateScene(primaryStage, userId);
+            try {
+                generateScene.show();
+            } catch (SQLiteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         });
 
         Button passwordDatabase = new Button("→ Password database");
         passwordDatabase.setOnAction(v -> {
-            DatabaseScene databaseScene = new DatabaseScene(primaryStage);
-            databaseScene.show();
+            DatabaseScene databaseScene = new DatabaseScene(primaryStage, userId);
+            try {
+                databaseScene.show();
+            } catch (SQLiteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         });
 
         Button aboutUs = new Button("ABOUT US");
         aboutUs.setOnAction(v -> {
-            AboutScene aboutScene = new AboutScene(primaryStage);
-            aboutScene.show();
+            AboutScene aboutScene = new AboutScene(primaryStage, userId);
+            try {
+                aboutScene.show();
+            } catch (SQLiteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         });
 
         Button exit = new Button("EXIT");
         exit.setOnAction(v -> {
-            LoginScene loginScene = new LoginScene(primaryStage);
+            LoginScene loginScene = new LoginScene(primaryStage, userId);
             loginScene.show();
         });
 
@@ -75,25 +105,20 @@ public class CreateScene {
         aboutUs.getStyleClass().add("menuButton");
         exit.getStyleClass().add("menuButton");
 
-        // Add items to the menu
         menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, aboutUs, exit);
 
-        // Create the form layout
         VBox formLayout = new VBox();
         formLayout.setId("form");
 
-        // Form title
         VBox titleContainer = new VBox();
         Label formTitle = new Label("CREATE");
         formTitle.setId("formTitle");
 
         Label formSubtitle = new Label("Add new account and password into the database");
-        
         formSubtitle.setId("formSubtitle");
         titleContainer.getChildren().addAll(formTitle, formSubtitle);
         titleContainer.setSpacing(3);
 
-        // Create form fields
         VBox formContainer = new VBox();
 
         HBox appField = new HBox();
@@ -105,13 +130,17 @@ public class CreateScene {
         appComboBox.setId("appBox");
         appComboBox.setPrefWidth(460);
         appComboBox.setPrefHeight(20);
+        appComboBox.getItems().addAll(
+                "Google", "Facebook", "Instagram", "Paypal", "Gopay",
+                "DANA", "OVO", "Gojek", "Grab", "Steam"
+        );
         appField.getChildren().addAll(appLabel, appComboBox);
         appField.setSpacing(20);
 
         HBox usernameField = new HBox();
         Label usernameLabel = new Label("username\t-→");
         usernameLabel.getStyleClass().add("fieldLabel");
-        
+
         TextField usernameTextField = new TextField();
         usernameTextField.getStyleClass().add("field");
         usernameTextField.setPrefWidth(460);
@@ -120,7 +149,6 @@ public class CreateScene {
         usernameField.setSpacing(20);
         usernameField.setId("username");
 
-        // Password HBox
         HBox passwordField = new HBox();
         Label passwordLabel = new Label("password\t-→");
         passwordLabel.getStyleClass().add("fieldLabel");
@@ -130,55 +158,77 @@ public class CreateScene {
         passwordTextField.getStyleClass().add("field");
         passwordTextField.setPrefWidth(350);
         passwordTextField.setPrefHeight(30);
-        
-        // TextField to show password
+
         TextField textField = new TextField();
         textField.getStyleClass().add("field");
         textField.setPrefWidth(350);
         textField.setPrefHeight(30);
         textField.setManaged(false);
         textField.setVisible(false);
-        
-        // CheckBox to show/hide password
+
         CheckBox showPasswordCheckBox = new CheckBox("Show?");
         showPasswordCheckBox.setId("showPass");
 
-        // Bind properties
         textField.managedProperty().bind(showPasswordCheckBox.selectedProperty());
         textField.visibleProperty().bind(showPasswordCheckBox.selectedProperty());
         passwordTextField.managedProperty().bind(showPasswordCheckBox.selectedProperty().not());
         passwordTextField.visibleProperty().bind(showPasswordCheckBox.selectedProperty().not());
 
-        // Synchronize text content
         textField.textProperty().bindBidirectional(passwordTextField.textProperty());
 
-        // Adding components to the passwordField HBox
         passwordField.getChildren().addAll(passwordLabel, passwordTextField, textField, showPasswordCheckBox);
         passwordField.setSpacing(20);
 
         formContainer.getChildren().addAll(appField, usernameField, passwordField);
         formContainer.setSpacing(50);
 
-        // Add button
         Label line = new Label("                                                               ");
         Button addButton = new Button("Add");
         addButton.setId("addButton");
 
         HBox buttonContainer = new HBox(line, addButton);
 
-        // Add fields to the form layout
         formLayout.getChildren().addAll(titleContainer, formContainer, buttonContainer);
         formLayout.setSpacing(50);
 
-        // Add the menu and form layout to the main layout
         mainLayout.setLeft(menu);
         mainLayout.setCenter(formLayout);
 
-        // Create the scene and set it to the stage
         Scene scene = new Scene(mainLayout, 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/styles/create.css").toExternalForm());
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        addButton.setOnAction(event -> {
+            String username = usernameTextField.getText();
+            String password = passwordTextField.getText();
+        
+            // Get the selected app from the ComboBox
+            String apps = appComboBox.getValue();
+            
+            ContactController contactController = new ContactController();
+            try {
+                // Insert user data to the selected app database
+                contactController.insertUserToAppDatabase(userId, username, password, apps);
+                
+
+                // Show success message
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText("User Added");
+                alert.setContentText("The user has been added successfully to AppDatabase.");
+                alert.showAndWait();
+            } catch (SQLException e) {
+                // Handle error if insertion fails
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Database Error");
+                alert.setContentText("Failed to add user to AppDatabase. Please try again later.");
+                alert.showAndWait();
+            }
+        });
+        
     }
 }

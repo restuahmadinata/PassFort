@@ -1,6 +1,8 @@
 package passfort;
 
 
+import org.sqlite.SQLiteException;
+
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -8,12 +10,14 @@ import javafx.stage.Stage;
 
 public class AboutScene {
     private Stage primaryStage;
+    private int userId;
 
-    public AboutScene(Stage primaryStage) {
+    public AboutScene(Stage primaryStage, int userId) {
         this.primaryStage = primaryStage;
+        this.userId = userId;
     }
 
-    public void show() {
+    public void show() throws SQLiteException {
         // Create the main layout
         BorderPane mainLayout = new BorderPane();
 
@@ -28,43 +32,68 @@ public class AboutScene {
 
         Button newPassword = new Button("→ New Password");
         newPassword.setOnAction(v -> {
-            CreateScene createScene = new CreateScene(primaryStage);
+            CreateScene createScene = new CreateScene(primaryStage, userId);
             createScene.show();
         });
 
         Button updatePassword = new Button("→ Update Password");
         updatePassword.setOnAction(v -> {
-            UpdateScene updateScene = new UpdateScene(primaryStage);
-            updateScene.show();
+            UpdateScene updateScene = new UpdateScene(primaryStage, userId);
+            try {
+                updateScene.show();
+            } catch (SQLiteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         });
 
         Button deletePassword = new Button("→ Delete Password");
         deletePassword.setOnAction(v -> {
-            DeleteScene deleteScene = new DeleteScene(primaryStage);
-            deleteScene.show();
+            DeleteScene deleteScene = new DeleteScene(primaryStage, userId);
+            try {
+                deleteScene.show();
+            } catch (SQLiteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         });
 
         Button generatePassword = new Button("→ Generate Password");
         generatePassword.setOnAction(v -> {
-            GenerateScene generateScene = new GenerateScene(primaryStage);
-            generateScene.show();
+            GenerateScene generateScene = new GenerateScene(primaryStage, userId);
+            try {
+                generateScene.show();
+            } catch (SQLiteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         });
 
         Button passwordDatabase = new Button("→ Password database");
         passwordDatabase.setOnAction(v -> {
-            DatabaseScene databaseScene = new DatabaseScene(primaryStage);
-            databaseScene.show();
+            DatabaseScene databaseScene = new DatabaseScene(primaryStage, userId);
+            try {
+                databaseScene.show();
+            } catch (SQLiteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         });
 
         Button aboutUs = new Button("ABOUT US");
         aboutUs.setOnAction(v -> {
-            AboutScene aboutScene = new AboutScene(primaryStage);
-            aboutScene.show();
+            AboutScene aboutScene = new AboutScene(primaryStage, userId);
+            try {
+                aboutScene.show();
+            } catch (SQLiteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         });
 
         Button exit = new Button("EXIT");
         exit.setOnAction(v -> {
-            LoginScene loginScene = new LoginScene(primaryStage);
+            LoginScene loginScene = new LoginScene(primaryStage, userId);
             loginScene.show();
         });
 

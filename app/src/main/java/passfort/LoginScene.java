@@ -10,11 +10,13 @@ import passfort.com.example.controller.ContactController;
 public class LoginScene {
     private Stage primaryStage;
     private ContactController contactController;
+    private int authResult;
 
-    public LoginScene(Stage primaryStage) {
+    public LoginScene(Stage primaryStage, int authResult) {
         this.primaryStage = primaryStage;
         this.contactController = new ContactController();
         this.contactController.createTable(); // Ensure the table is created
+        this.authResult = authResult;
     }
 
     public void show() {
@@ -101,23 +103,23 @@ public class LoginScene {
         loginButton.setOnAction(v -> {
             String username = usernameTextField.getText();
             String password = passwordTextField.getText();
-  
 
             if (username.isEmpty() || password.isEmpty()) {
                 showAlert(Alert.AlertType.ERROR, "Input Error", "Semua field harus diisi!");
             } else {
-                int authResult = authenticate(username, password); // Get the result code
-                if (authResult == 2) {
+                authResult = authenticate(username, password); // Get the result code
+                if (authResult > 0) {
                     if (username.equals("admin") && password.equals("ambatukam")) {
                         showAlert(Alert.AlertType.INFORMATION, "Success", "Admin has been logged in!");
-                        AdminScene adminScene = new AdminScene(primaryStage);
+                        AdminScene adminScene = new AdminScene(primaryStage, authResult);
                         adminScene.show();
                     } else {
                         showAlert(Alert.AlertType.INFORMATION, "Success", "User logged in successfully!");
-                        CreateScene createScene = new CreateScene(primaryStage);
+                        CreateScene createScene = new CreateScene(primaryStage, authResult);
                         createScene.show();
                     }
-                } else if (authResult == 1) {
+
+                } else if (authResult == -1) {
                     showAlert(Alert.AlertType.ERROR, "Input Error", "Wrong password!");
                 } else {
                     showAlert(Alert.AlertType.ERROR, "Input Error", "Akun tidak ditemukan!");
@@ -129,28 +131,12 @@ public class LoginScene {
         signButton.setId("signButton");
 
         signButton.setOnAction(v -> {
-            SignScene signScene = new SignScene(primaryStage);
+            SignScene signScene = new SignScene(primaryStage, authResult);
             signScene.show();
         });
 
-        Button admin = new Button("Are you an admin?");
-        admin.setId("admin");
-
-        admin.setOnAction(v -> {
-            AdminScene adminScene = new AdminScene(primaryStage);
-            adminScene.show();
-        });
-
-        Button bypass = new Button("Bypass!");
-        bypass.setId("bypass");
-
-        bypass.setOnAction(v -> {
-            CreateScene createScene = new CreateScene(primaryStage);
-            createScene.show();
-        });
-
         VBox buttonContainer = new VBox();
-        buttonContainer.getChildren().addAll(loginButton, signButton, admin, bypass);
+        buttonContainer.getChildren().addAll(loginButton, signButton);
         buttonContainer.setSpacing(20);
         buttonContainer.setAlignment(Pos.CENTER);
 

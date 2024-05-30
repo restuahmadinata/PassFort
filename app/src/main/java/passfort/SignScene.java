@@ -9,16 +9,18 @@ import passfort.com.example.controller.ContactController;
 
 public class SignScene {
     private Stage primaryStage;
+    private int userId;
 
-    public SignScene(Stage primaryStage) {
+    public SignScene(Stage primaryStage, int userId) {
         this.primaryStage = primaryStage;
+        this.userId = userId;
     }
 
     public void show() {
 
         // Create the form layout
-        VBox loginLayout = new VBox();
-        loginLayout.setId("form");
+        VBox signUpLayout = new VBox();
+        signUpLayout.setId("form");
 
         // Form title
         VBox titleContainer = new VBox();
@@ -93,10 +95,10 @@ public class SignScene {
         formContainer.setAlignment(Pos.CENTER);
 
         // Add button
-        Button signButton = new Button("SIGN IN");
-        signButton.setId("signButton");
+        Button signUpButton = new Button("SIGN UP");
+        signUpButton.setId("signButton");
 
-        signButton.setOnAction(event -> {
+        signUpButton.setOnAction(event -> {
             String username = usernameTextField.getText();
             String password = passwordTextField.getText();
 
@@ -116,8 +118,8 @@ public class SignScene {
                         // Show a success message
                         showAlert(Alert.AlertType.INFORMATION, "Success", "User signed up successfully!");
 
-                        // Navigate to the CreateScene
-                        CreateScene createScene = new CreateScene(primaryStage);
+                        // Navigate to the LoginScene
+                        CreateScene createScene = new CreateScene(primaryStage, userId);
                         createScene.show();
                     }
                 } catch (Exception e) {
@@ -131,22 +133,22 @@ public class SignScene {
         loginButton.setId("loginButton");
 
         loginButton.setOnAction(v -> {
-            LoginScene loginScene = new LoginScene(primaryStage);
+            LoginScene loginScene = new LoginScene(primaryStage, userId);
             loginScene.show();
         });
 
         VBox buttonContainer = new VBox();
-        buttonContainer.getChildren().addAll(signButton, loginButton);
+        buttonContainer.getChildren().addAll(signUpButton, loginButton);
         buttonContainer.setSpacing(20);
         buttonContainer.setAlignment(Pos.CENTER);
 
         // Add fields to the form layout
-        loginLayout.getChildren().addAll(titleContainer, formContainer, buttonContainer);
-        loginLayout.setSpacing(50);
-        loginLayout.setAlignment(Pos.CENTER);
+        signUpLayout.getChildren().addAll(titleContainer, formContainer, buttonContainer);
+        signUpLayout.setSpacing(50);
+        signUpLayout.setAlignment(Pos.CENTER);
 
         // Create the scene and set it to the stage
-        Scene scene = new Scene(loginLayout, 1280, 720);
+        Scene scene = new Scene(signUpLayout, 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/styles/sign.css").toExternalForm());
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);

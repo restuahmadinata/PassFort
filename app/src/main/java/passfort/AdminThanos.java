@@ -10,10 +10,12 @@ import passfort.com.example.controller.ContactController;
 public class AdminThanos {
     private Stage primaryStage;
     private ContactController contactController;
+    private int authResult;
 
-    public AdminThanos(Stage primaryStage) {
+    public AdminThanos(Stage primaryStage, int authResult) {
         this.primaryStage = primaryStage;
         this.contactController = new ContactController();
+        this.authResult = authResult;
     }
 
     public void show() {
@@ -50,12 +52,6 @@ public class AdminThanos {
                 showAlert(Alert.AlertType.ERROR, "Input Error", "Username field must not be empty!");
                 return;
             }
-
-            if (username.equals("admin")) {
-                showAlert(Alert.AlertType.ERROR, "Deletion Error", "Admin account cannot be deleted.");
-                return;
-            }
-
             try {
                 if (contactController.isUsernameTaken(username)) {
                     Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -87,7 +83,7 @@ public class AdminThanos {
         Button exit = new Button("Mode Admin Normal");
         exit.setId("exit");
         exit.setOnAction(v -> {
-            AdminScene adminScene = new AdminScene(primaryStage);
+            AdminScene adminScene = new AdminScene(primaryStage, authResult);
             adminScene.show();
         });
 
