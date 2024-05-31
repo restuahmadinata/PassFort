@@ -203,22 +203,31 @@ public class CreateScene {
         addButton.setOnAction(event -> {
             String username = usernameTextField.getText();
             String password = passwordTextField.getText();
-        
-            // Get the selected app from the ComboBox
             String apps = appComboBox.getValue();
             
             ContactController contactController = new ContactController();
             try {
-                // Insert user data to the selected app database
-                contactController.insertUserToAppDatabase(userId, username, password, apps);
+                // Check if the user already exists
+                boolean userExists = contactController.checkUserExistsForApp(username, apps, userId);
                 
+                if (userExists) {
+                    // Show error message if user already exists
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("User Already Exists");
+                    alert.setContentText("The user already exists in the AppDatabase.");
+                    alert.showAndWait();
+                } else {
+                    // Insert user data to the selected app database
+                    contactController.insertUserToAppDatabase(userId, username, password, apps);
 
-                // Show success message
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setHeaderText("User Added");
-                alert.setContentText("The user has been added successfully to AppDatabase.");
-                alert.showAndWait();
+                    // Show success message
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText("User Added");
+                    alert.setContentText("The user has been added successfully to AppDatabase.");
+                    alert.showAndWait();
+                }
             } catch (SQLException e) {
                 // Handle error if insertion fails
                 e.printStackTrace();

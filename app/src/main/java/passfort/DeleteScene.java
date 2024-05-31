@@ -186,10 +186,10 @@ public class DeleteScene {
                 ContactController contactController = new ContactController();
                 try {
                     // Check if the user exists in the AppDatabase
-                    boolean userExistsForApp = contactController.checkUserExistsForApp(username, app);
+                    boolean userExistsForApp = contactController.checkUserExistsForApp(username, app, userId);
                     if (userExistsForApp) {
                         // Delete the user from AppDatabase
-                        contactController.deleteUserFromAppDatabase(username, app);
+                        contactController.deleteUserFromAppDatabase(username, app, userId);
                         // Show success alert
                         showAlert(Alert.AlertType.INFORMATION, "Success", "User data deleted successfully from AppDatabase.");
                     } else {

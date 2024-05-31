@@ -232,10 +232,10 @@ if (app != null && !app.isEmpty() && username != null && !username.isEmpty() && 
     ContactController contactController = new ContactController();
     try {
         // Panggil metode checkUserExistsForApp dengan nilai username dan app yang sesuai
-        boolean userExistsForApp = contactController.checkUserExistsForApp(username, app);
+        boolean userExistsForApp = contactController.checkUserExistsForApp(username, app, userId);
         if (userExistsForApp) {
             // Update password jika user ditemukan untuk aplikasi yang dipilih
-            contactController.updateUserPasswordForApp(username, newPassword, app);
+            contactController.updateUserPasswordForApp(username, newPassword, app, userId);
             // Tampilkan pesan sukses atau lakukan tindakan yang sesuai
             showAlert("Password updated successfully.");
         } else {

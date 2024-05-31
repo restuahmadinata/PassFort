@@ -199,13 +199,14 @@ public class ContactController {
         }
     }
 
-    public void updateUserPasswordForApp(String username, String newPassword, String app) {
-        String sql = "UPDATE UserAppData SET password = ? WHERE username = ? AND apps = ?";
+    public void updateUserPasswordForApp(String username, String newPassword, String app, int userId) {
+        String sql = "UPDATE UserAppData SET password = ? WHERE username = ? AND apps = ? AND userId = ?";
         try (Connection conn = DatabaseConnection.connectToAppDatabase();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, newPassword);
             pstmt.setString(2, username);
             pstmt.setString(3, app);
+            pstmt.setInt(4, userId);
             pstmt.executeUpdate();
             System.out.println("Password updated successfully for user: " + username + " and app: " + app);
         } catch (SQLException e) {
@@ -213,12 +214,13 @@ public class ContactController {
         }
     }
 
-    public boolean checkUserExistsForApp(String username, String app) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM UserAppData WHERE username = ? AND apps = ?";
+    public boolean checkUserExistsForApp(String username, String app, int userId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM UserAppData WHERE username = ? AND apps = ? AND userId = ?";
         try (Connection conn = DatabaseConnection.connectToAppDatabase();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             pstmt.setString(2, app);
+            pstmt.setInt(3, userId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1) > 0;
@@ -231,12 +233,13 @@ public class ContactController {
         return false;
     }
     
-    public void deleteUserFromAppDatabase(String username, String app) throws SQLException {
-        String sql = "DELETE FROM UserAppData WHERE username = ? AND apps = ?";
+    public void deleteUserFromAppDatabase(String username, String app, int userId) throws SQLException {
+        String sql = "DELETE FROM UserAppData WHERE username = ? AND apps = ? AND userId = ?";
         try (Connection conn = DatabaseConnection.connectToAppDatabase();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             pstmt.setString(2, app);
+            pstmt.setInt(3, userId);
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
                 System.out.println("User data deleted successfully from AppDatabase.");
