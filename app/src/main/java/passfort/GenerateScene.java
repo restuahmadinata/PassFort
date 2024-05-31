@@ -188,13 +188,13 @@ public class GenerateScene {
                         outputField.setText(password);
                         copyButton.setText("🗐");
                     } else {
-                        outputField.setText("Select at least one option.");
+                        showAlert(Alert.AlertType.INFORMATION, "Generate Status", "Select at least one option");
                     }
                 } else {
-                    outputField.setText("Enter a number between 8-15.");
+                    showAlert(Alert.AlertType.INFORMATION, "Generate Status", "Enter a number between 8-15");
                 }
             } else {
-                outputField.setText("Enter a valid number.");
+                showAlert(Alert.AlertType.INFORMATION, "Generate Status", "Enter a valid number");
             }
         });
 
@@ -255,5 +255,16 @@ public class GenerateScene {
         }
 
         return password.toString();
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("/styles/login.css").toExternalForm());
+        alert.showAndWait();
     }
 }

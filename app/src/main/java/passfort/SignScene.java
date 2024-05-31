@@ -112,18 +112,12 @@ public class SignScene {
                     if (contactController.isUsernameTaken(username)) {
                         showAlert(Alert.AlertType.ERROR, "Registration Error", "Username sudah digunakan");
                     } else {
-                        // Insert the user
                         contactController.insertUser(username, password, "Regular");
-
-                        // Show a success message
                         showAlert(Alert.AlertType.INFORMATION, "Success", "User signed up successfully!");
-
-                        // Navigate to the LoginScene
                         CreateScene createScene = new CreateScene(primaryStage, userId);
                         createScene.show();
                     }
                 } catch (Exception e) {
-                    // Display an error message if there is a database error
                     showAlert(Alert.AlertType.ERROR, "Database Error", "Tidak dapat terhubung ke database, coba lagi nanti");
                 }
             }
@@ -160,6 +154,9 @@ public class SignScene {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+    
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("/styles/sign.css").toExternalForm());
         alert.showAndWait();
     }
 }

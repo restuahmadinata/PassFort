@@ -162,6 +162,9 @@ public class LoginScene {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("/styles/login.css").toExternalForm());
         alert.showAndWait();
     }
 }

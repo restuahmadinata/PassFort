@@ -205,6 +205,11 @@ public class CreateScene {
             String password = passwordTextField.getText();
             String apps = appComboBox.getValue();
             
+            if (username.isEmpty() || password.isEmpty() || apps == null) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all fields.");
+                return;
+            }
+            
             ContactController contactController = new ContactController();
             try {
                 // Check if the user already exists
@@ -212,32 +217,29 @@ public class CreateScene {
                 
                 if (userExists) {
                     // Show error message if user already exists
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("User Already Exists");
-                    alert.setContentText("The user already exists in the AppDatabase.");
-                    alert.showAndWait();
+                    showAlert(Alert.AlertType.ERROR, "Error", "User Already Exists. The user already exists in the AppDatabase.");
                 } else {
                     // Insert user data to the selected app database
                     contactController.insertUserToAppDatabase(userId, username, password, apps);
-
-                    // Show success message
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Success");
-                    alert.setHeaderText("User Added");
-                    alert.setContentText("The user has been added successfully to AppDatabase.");
-                    alert.showAndWait();
+                    showAlert(Alert.AlertType.INFORMATION, "Success", "User Added. The user has been added successfully to AppDatabase.");
                 }
             } catch (SQLException e) {
                 // Handle error if insertion fails
                 e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Database Error");
-                alert.setContentText("Failed to add user to AppDatabase. Please try again later.");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.ERROR, "Error", "Database Error. Failed to add user to AppDatabase.");
             }
         });
         
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+    
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("/styles/create.css").toExternalForm());
+        alert.showAndWait();
     }
 }

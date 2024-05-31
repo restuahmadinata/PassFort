@@ -237,29 +237,29 @@ if (app != null && !app.isEmpty() && username != null && !username.isEmpty() && 
             // Update password jika user ditemukan untuk aplikasi yang dipilih
             contactController.updateUserPasswordForApp(username, newPassword, app, userId);
             // Tampilkan pesan sukses atau lakukan tindakan yang sesuai
-            showAlert("Password updated successfully.");
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Password updated successfully.");
         } else {
             // Tampilkan pesan error jika user atau aplikasi tidak ditemukan
-            showAlert("User or app not found.");
+            showAlert(Alert.AlertType.ERROR, "Error", "User or app not found.");
         }
     } catch (SQLException e) {
         e.printStackTrace();
     }
 } else {
     // Tampilkan pesan error jika ada field yang kosong
-    showAlert("Please fill in all fields.");
+    showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all fields.");
     }
 }
 
+private void showAlert(Alert.AlertType alertType, String title, String message) {
+    Alert alert = new Alert(alertType);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(message);
 
-
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Update Status");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    DialogPane dialogPane = alert.getDialogPane();
+    dialogPane.getStylesheets().add(getClass().getResource("/styles/update.css").toExternalForm());
+    alert.showAndWait();
     }
 }
 
