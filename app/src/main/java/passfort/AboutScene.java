@@ -1,11 +1,18 @@
 package passfort;
 
 
+import java.io.InputStream;
+
 import org.sqlite.SQLiteException;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class AboutScene {
@@ -15,6 +22,11 @@ public class AboutScene {
     public AboutScene(Stage primaryStage, int userId) {
         this.primaryStage = primaryStage;
         this.userId = userId;
+    }
+
+    private void setCircularImage(ImageView imageView, double radius) {
+        Circle clip = new Circle(radius, radius, radius);
+        imageView.setClip(clip);
     }
 
     public void show() throws SQLiteException {
@@ -103,28 +115,101 @@ public class AboutScene {
         // Add items to the menu
         menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, aboutUs, exit);
 
-        // Create the form layout
-        VBox formLayout = new VBox();
-        formLayout.setId("form");
+
+        // InfoLayout
+        VBox infoLayout = new VBox();
+        infoLayout.setId("infoLayout");
+        infoLayout.setPadding(new Insets(10));
 
         // Form title
         VBox titleContainer = new VBox();
-        Label formTitle = new Label("ABOUT US");
-        formTitle.setId("formTitle");
 
-        Label formSubtitle = new Label("Still on development :)");
-        
-        formSubtitle.setId("formSubtitle");
-        titleContainer.getChildren().addAll(formTitle, formSubtitle);
+        Label infoTitle = new Label("ABOUT US");
+        infoTitle.setId("infoTitle");
+
+        Label infoSubtitle = new Label("Wanna know who create this program?");
+        infoSubtitle.setId("infoSubtitle");
+
+        titleContainer.getChildren().addAll(infoTitle, infoSubtitle);
         titleContainer.setSpacing(3);
 
         // Add fields to the form layout
-        formLayout.getChildren().addAll(titleContainer);
-        formLayout.setSpacing(50);
+        infoLayout.getChildren().addAll(titleContainer);
+
+        // Create a ScrollPane to contain user information
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setId("scrollPane");
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPrefHeight(500);
+
+        VBox userInfoContainer = new VBox();
+        userInfoContainer.setSpacing(10);
+        userInfoContainer.setId("userInfoContainer");
+
+        String[] usernames = {"Radinata", "Alief Kobokan", "Zakiya", "Kelvin L"};
+        String[] descriptions = {
+            "Suaminya Mirai Kuriyama.\nMengisi waktu luang dengan nonton anime atau denger musik.",
+            "Thats f*cking Valorant right there.\nNone of that pansy a** d*ck\ntugging slow disciplined default smile for the camera bullshit.\nMen overpeek, men lose every anti-eco,\nmen knife the defuser, men run it down every round.\nFucking hard core d*ck in the a** butterball tacshooter\nf*ck it chuck it game time sh*t.\nTake it to the showers. Raze ults get shoved\nin places you don’t even remember.\nWe win together we celebrate together.\nValorant is back baby.",
+            "Msuk sisfo auto pilot dr ortu.\nsuka makan eskrim.\nmotto hidup \"tidur itu optional\"",
+            "Our mentor."
+        };
+        String[] imagePaths = {
+            "images/radinata.jpg",
+            "images/alif_kobokan.jpg",
+            "images/zakiyah.jpg",
+            "images/kelvin_l.png"
+        };
+
+        for (int i = 0; i < 4; i++) {
+            VBox userContainer = new VBox();
+            userContainer.setSpacing(10);
+
+            // User image
+            ImageView imageView = new ImageView();
+            try {
+                InputStream stream = getClass().getClassLoader().getResourceAsStream(imagePaths[i]);
+                if (stream != null) {
+                    imageView.setImage(new Image(stream));
+                    imageView.setFitWidth(150);
+                    imageView.setFitHeight(150);
+                    setCircularImage(imageView, 75);
+                } else {
+                    System.err.println("Failed to load image: " + imagePaths[i]);
+                }
+            } catch (Exception e) {
+                System.err.println("Error loading image: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+            // Username
+            Label usernameLabel = new Label(usernames[i]);
+            usernameLabel.setId("usernameLabel");
+
+            // Description
+            Label descriptionLabel = new Label(descriptions[i]);
+            descriptionLabel.setId("descriptionLabel");
+
+            Label line = new Label("-----------------------------------------------------------------------------------------------------");
+            line.setId("line");
+
+            // Add items to the user container
+            userContainer.getChildren().addAll(imageView, usernameLabel, descriptionLabel, line);
+            userContainer.setAlignment(Pos.CENTER);
+            userContainer.setId("userContainer");
+
+            // Add the user container to the main container
+            userInfoContainer.getChildren().add(userContainer);
+        }
+
+        // Add the user information container to the scroll pane
+        scrollPane.setContent(userInfoContainer);
+
+        // Add the scroll pane to the form layout
+        infoLayout.getChildren().add(scrollPane);
 
         // Add the menu and form layout to the main layout
         mainLayout.setLeft(menu);
-        mainLayout.setCenter(formLayout);
+        mainLayout.setCenter(infoLayout);
 
         // Create the scene and set it to the stage
         Scene scene = new Scene(mainLayout, 1280, 720);

@@ -43,7 +43,6 @@ public class DatabaseScene {
             try {
                 updateScene.show();
             } catch (SQLiteException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });
@@ -54,7 +53,6 @@ public class DatabaseScene {
             try {
                 deleteScene.show();
             } catch (SQLiteException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });
@@ -65,7 +63,6 @@ public class DatabaseScene {
             try {
                 generateScene.show();
             } catch (SQLiteException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });
@@ -76,7 +73,6 @@ public class DatabaseScene {
             try {
                 databaseScene.show();
             } catch (SQLiteException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });
@@ -87,7 +83,6 @@ public class DatabaseScene {
             try {
                 aboutScene.show();
             } catch (SQLiteException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });

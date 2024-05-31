@@ -67,7 +67,8 @@
     padding: 20;
 }
 
-#form {
+/* CSS Form */
+#infoLayout {
     -fx-background-color: #1F1E2C;
     -fx-padding: 70 0 0 40;
     /* Standard Property */
@@ -75,23 +76,14 @@
     padding: 70 0 0 40;
 }
 
-
-.fieldLabel {
-    -fx-text-fill: white;
-    -fx-font-size: 24px;
-
+#scrollPane {
+    -fx-background-color: #1F1E2C;
     /* Standard Property */
-    font-size: 24px;
-}
-#username {
-    -fx-background-color: transparent;
-
-    /* Standard Property */
-    background-color: transparent;
+    background-color: #1F1E2C;
 }
 
-/* CSS Form */
-#formTitle {
+
+#infoTitle {
     -fx-text-fill: white;
     -fx-font-size: 64px;
     -fx-font-weight: bold;
@@ -101,7 +93,7 @@
     font-weight: bold;
 }
 
-#formSubtitle {
+#infoSubtitle {
     -fx-text-fill: #A4A4A4;
     -fx-font-size: 16px;
 
@@ -109,129 +101,59 @@
     font-size: 16px;
 }
 
-#appBox {
+#userContainer {
+    -fx-background-color: #1F1E2C;
+    /* Standard Property */
+    background-color: #1F1E2C;
+}
+
+#userInfoContainer {
+    -fx-background-color: #1F1E2C;
+    /* Standard Property */
+    background-color: #1F1E2C;
+}
+
+#usernameLabel {
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+
+    font-size: 24px;
+}
+
+#descriptionLabel {
     -fx-font-size: 16px;
-    -fx-pref-width: 460px;
-    -fx-pref-height: 30px;
-    -fx-background-color: transparent;
-    -fx-border-color: white;
-    -fx-border-width: 1px;
+    -fx-text-fill: #868686;
 
-    /* Standard Property */
-    font-size: 16px;
-    background-color: transparent;
-    border-color: white;
-    border-width: 1px;
-}
-
-#appBox .combo-box .list-cell {
-    -fx-text-fill: white; 
-}
-
-#appBox .combo-box .list-view {
-    -fx-background-color: #3A3E5D;
-
-    /* Standard Property */
-    background-color: #3A3E5D;
-}
-
-#appBox .combo-box .list-cell:filled:selected, #appBox .combo-box .list-cell:filled:hover {
-    -fx-background-color: #3A3E5D;
-    -fx-text-fill: white;
-
-    /* Standard Property */
-    background-color: #3A3E5D;
-}
-
-#appBox .combo-box .arrow-button .arrow {
-    -fx-background-color: blue;
-
-    /* Standard Property */
-    background-color: white;
-}
-
-#appBox .combo-box-base .combo-box-popup {
-    -fx-background-color: #3A3E5D;
-
-    /* Standard Property */
-    background-color: #3A3E5D;
-}
-
-#appBox .combo-box-base {
-    -fx-background-color: #3A3E5D;
-    -fx-border-color: white;
-    -fx-border-width: 0px 0px 1px 0px;
-
-    /* Standard Property */
-    background-color: #3A3E5D;
-    border-color: white;
-    border-width: 0px 0px 1px 0px;
-}
-
-#appBox .text {
-    -fx-fill: white;
-    fill: white;
-}
-
-.field {
-    -fx-text-fill: white;
-    -fx-font-size: 20px;
-    -fx-background-color: transparent;
-    -fx-border-color: white;
-    -fx-border-width: 0px 0px 1px 0px;
-
-    /* Standard Property */
-    font-size: 20px;
-    background-color: transparent;
-    border-color: white;
-    border-width: 0px 0px 1px 0px;
-}
-
-#showPass {
-    -fx-background-color: transparent;
-    -fx-padding: 10;
-    -fx-pref-height: 30px;
-
-    /* Standard Property */
-    background-color: transparent;
-    padding: 10;
-}
-
-#showPass .box {
-    -fx-background-color: transparent;
-    -fx-padding: 10;
-    -fx-pref-height: 30px;
-    -fx-pref-width: 30px;
-    -fx-border-color: white;
-    -fx-border-width: 1px;
-
-    /* Standard Property */
-    background-color: transparent;
-    padding: 10;
-    border-color: white;
-    border-width: 1px;
-}
-
-#showPass .text {
-    -fx-fill: white;
-    -fx-font-size: 16px;
-
-    /* Standard Property */
-    fill: white;
     font-size: 16px;
 }
 
-#addButton {
-    -fx-background-color: #3A3E5D;
+#line {
     -fx-text-fill: white;
-    -fx-font-size: 36px;
-    -fx-pref-width: 286px;
-    -fx-pref-height: 64px;
-    -fx-background-radius: 10px;
-    -fx-effect: dropshadow(gaussian, rgba(29, 29, 45, 0.281), 14, 0, 0, 4);
-
-    /* Standard Property */
-    font-size: 16px;
-    background-color: #3A3E5D;
 }
 
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #2D2D45; /* Darker thumb */
+    -fx-background-insets: 0;
+    -fx-background-radius: 5px;
+
+    background-color: transparent;
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent; /* Dark track */
+    -fx-background-insets: 0;
+    -fx-background-radius: 5px;
+
+    background-color: transparent;
+}
+
+.scroll-bar:vertical .increment-button,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color: #444; /* Dark buttons */
+    background-color: #444;
+}

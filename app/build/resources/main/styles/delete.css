@@ -109,68 +109,70 @@
     font-size: 16px;
 }
 
-#appBox {
+.combo-box {
     -fx-font-size: 16px;
     -fx-pref-width: 460px;
     -fx-pref-height: 30px;
     -fx-background-color: transparent;
     -fx-border-color: white;
-    -fx-border-width: 1px;
+    -fx-border-width: 2px;
+    -fx-text-fill: white;
 
-    /* Standard Property */
     font-size: 16px;
     background-color: transparent;
     border-color: white;
-    border-width: 1px;
+    border-width: 1;
 }
 
-#appBox .combo-box .list-cell {
-    -fx-text-fill: white; 
-}
-
-#appBox .combo-box .list-view {
-    -fx-background-color: #3A3E5D;
-
-    /* Standard Property */
-    background-color: #3A3E5D;
-}
-
-#appBox .combo-box .list-cell:filled:selected, #appBox .combo-box .list-cell:filled:hover {
-    -fx-background-color: #3A3E5D;
+.combo-box .list-cell {
+    -fx-background-color: #2D2D45;
     -fx-text-fill: white;
 
-    /* Standard Property */
-    background-color: #3A3E5D;
+    background-color: #2D2D45;
 }
 
-#appBox .combo-box .arrow-button .arrow {
-    -fx-background-color: blue;
-
-    /* Standard Property */
-    background-color: white;
+.combo-box .list-cell:hover {
+    -fx-background-color: #3a3a3a;
+    background-color: #3a3a3a;
 }
 
-#appBox .combo-box-base .combo-box-popup {
-    -fx-background-color: #3A3E5D;
-
-    /* Standard Property */
-    background-color: #3A3E5D;
+.combo-box .arrow-button {
+    -fx-background-color: #2D2D45;
+    background-color: #2D2D45;
 }
 
-#appBox .combo-box-base {
-    -fx-background-color: #3A3E5D;
-    -fx-border-color: white;
-    -fx-border-width: 0px 0px 1px 0px;
-
-    /* Standard Property */
-    background-color: #3A3E5D;
-    border-color: white;
-    border-width: 0px 0px 1px 0px;
-}
-
-#appBox .text {
+.combo-box .arrow-button .arrow {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-shape: "M 0,0 L 4,4 L 8,0 Z";
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
     -fx-fill: white;
+
+    background-color: transparent;
+    padding: 0;
     fill: white;
+}
+
+.combo-box .arrow-button:hover .arrow {
+    -fx-fill: #aaaaaa;
+    fill: #aaaaaa;
+}
+
+.combo-box .list-view {
+    -fx-background-color: #2D2D45;
+    -fx-control-inner-background: #2D2D45;
+
+    background-color: #2D2D45;
+}
+
+.combo-box:focused {
+    -fx-border-color: #5c5c5c;
+    -fx-background-color: #3a3a3a;
+
+    background-color: #3a3a3a;
+    border-color: #5c5c5c;
 }
 
 .field {

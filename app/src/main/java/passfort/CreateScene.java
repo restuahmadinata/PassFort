@@ -4,11 +4,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import passfort.com.example.controller.ContactController;
-
 import java.sql.SQLException;
-
 import org.sqlite.SQLiteException;
+import passfort.com.example.controller.ContactController;
 
 public class CreateScene {
 
@@ -42,7 +40,6 @@ public class CreateScene {
             try {
                 updateScene.show();
             } catch (SQLiteException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });
@@ -53,7 +50,6 @@ public class CreateScene {
             try {
                 deleteScene.show();
             } catch (SQLiteException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });
@@ -64,7 +60,6 @@ public class CreateScene {
             try {
                 generateScene.show();
             } catch (SQLiteException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });
@@ -75,7 +70,6 @@ public class CreateScene {
             try {
                 databaseScene.show();
             } catch (SQLiteException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });
@@ -86,7 +80,7 @@ public class CreateScene {
             try {
                 aboutScene.show();
             } catch (SQLiteException e) {
-                // TODO Auto-generated catch block
+
                 e.printStackTrace();
             }
         });
@@ -127,7 +121,6 @@ public class CreateScene {
 
         ComboBox<String> appComboBox = new ComboBox<>();
         appComboBox.setPromptText("Select app");
-        appComboBox.setId("appBox");
         appComboBox.setPrefWidth(460);
         appComboBox.setPrefHeight(20);
         appComboBox.getItems().addAll(
