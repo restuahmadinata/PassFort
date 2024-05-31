@@ -9,11 +9,13 @@ import passfort.com.example.controller.ContactController;
 
 public class SignScene {
     private Stage primaryStage;
-    private int userId;
+    private int authResult;
+    private ContactController contactController;
 
-    public SignScene(Stage primaryStage, int userId) {
+    public SignScene(Stage primaryStage, int authResult) {
         this.primaryStage = primaryStage;
-        this.userId = userId;
+        this.authResult = authResult;
+        this.contactController = new ContactController();
     }
 
     public void show() {
@@ -27,7 +29,7 @@ public class SignScene {
 
         Label greeting = new Label("Welcome to");
         greeting.setId("greeting");
-
+ 
         Label formTitle = new Label("PASSFORT");
         formTitle.setId("formTitle");
 
@@ -113,8 +115,9 @@ public class SignScene {
                         showAlert(Alert.AlertType.ERROR, "Registration Error", "Username sudah digunakan");
                     } else {
                         contactController.insertUser(username, password, "Regular");
+                        authResult = authenticate(username, password);
                         showAlert(Alert.AlertType.INFORMATION, "Success", "User signed up successfully!");
-                        CreateScene createScene = new CreateScene(primaryStage, userId);
+                        CreateScene createScene = new CreateScene(primaryStage, authResult);
                         createScene.show();
                     }
                 } catch (Exception e) {
@@ -127,7 +130,7 @@ public class SignScene {
         loginButton.setId("loginButton");
 
         loginButton.setOnAction(v -> {
-            LoginScene loginScene = new LoginScene(primaryStage, userId);
+            LoginScene loginScene = new LoginScene(primaryStage, authResult);
             loginScene.show();
         });
 
@@ -158,5 +161,8 @@ public class SignScene {
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("/styles/sign.css").toExternalForm());
         alert.showAndWait();
+    }
+    private int authenticate(String username, String password) {
+        return contactController.authenticateUser(username, password);
     }
 }

@@ -69,7 +69,7 @@
 
 #form {
     -fx-background-color: #1F1E2C;
-    -fx-padding: 70 0 0 40;
+    -fx-padding: 70 40 0 40;
     /* Standard Property */
     background-color: #1F1E2C;
     padding: 70 0 0 40;
@@ -109,122 +109,10 @@
     font-size: 16px;
 }
 
-#appBox {
-    -fx-font-size: 16px;
-    -fx-pref-width: 460px;
-    -fx-pref-height: 30px;
-    -fx-background-color: transparent;
-    -fx-border-color: white;
-    -fx-border-width: 1px;
-
-    /* Standard Property */
-    font-size: 16px;
-    background-color: transparent;
-    border-color: white;
-    border-width: 1px;
-}
-
-#appBox .combo-box .list-cell {
-    -fx-text-fill: white; 
-}
-
-#appBox .combo-box .list-view {
-    -fx-background-color: #3A3E5D;
-
-    /* Standard Property */
-    background-color: #3A3E5D;
-}
-
-#appBox .combo-box .list-cell:filled:selected, #appBox .combo-box .list-cell:filled:hover {
-    -fx-background-color: #3A3E5D;
-    -fx-text-fill: white;
-
-    /* Standard Property */
-    background-color: #3A3E5D;
-}
-
-#appBox .combo-box .arrow-button .arrow {
-    -fx-background-color: blue;
-
-    /* Standard Property */
-    background-color: white;
-}
-
-#appBox .combo-box-base .combo-box-popup {
-    -fx-background-color: #3A3E5D;
-
-    /* Standard Property */
-    background-color: #3A3E5D;
-}
-
-#appBox .combo-box-base {
-    -fx-background-color: #3A3E5D;
-    -fx-border-color: white;
-    -fx-border-width: 0px 0px 1px 0px;
-
-    /* Standard Property */
-    background-color: #3A3E5D;
-    border-color: white;
-    border-width: 0px 0px 1px 0px;
-}
-
-#appBox .text {
-    -fx-fill: white;
-    fill: white;
-}
-
-.field {
-    -fx-text-fill: white;
-    -fx-font-size: 20px;
-    -fx-background-color: transparent;
-    -fx-border-color: white;
-    -fx-border-width: 0px 0px 1px 0px;
-
-    /* Standard Property */
-    font-size: 20px;
-    background-color: transparent;
-    border-color: white;
-    border-width: 0px 0px 1px 0px;
-}
-
 #showPass {
-    -fx-background-color: transparent;
-    -fx-padding: 10;
-    -fx-pref-height: 30px;
-
-    /* Standard Property */
-    background-color: transparent;
-    padding: 10;
-}
-
-#showPass .box {
-    -fx-background-color: transparent;
-    -fx-padding: 10;
-    -fx-pref-height: 30px;
-    -fx-pref-width: 30px;
-    -fx-border-color: white;
-    -fx-border-width: 1px;
-
-    /* Standard Property */
-    background-color: transparent;
-    padding: 10;
-    border-color: white;
-    border-width: 1px;
-}
-
-#showPass .text {
-    -fx-fill: white;
-    -fx-font-size: 16px;
-
-    /* Standard Property */
-    fill: white;
-    font-size: 16px;
-}
-
-#addButton {
     -fx-background-color: #3A3E5D;
     -fx-text-fill: white;
-    -fx-font-size: 36px;
+    -fx-font-size: 24px;
     -fx-pref-width: 286px;
     -fx-pref-height: 64px;
     -fx-background-radius: 10px;
@@ -235,3 +123,123 @@
     background-color: #3A3E5D;
 }
 
+/* TableView dark mode styles */
+.table-view {
+    -fx-background-color: #1F1E2C;
+    -fx-table-cell-border-color: transparent;
+
+    background-color: #1F1E2C;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #1F1E2C;
+
+    background-color: #1F1E2C;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: #1F1E2C;
+    -fx-border-color: white;
+    -fx-text-fill: #e0e0e0; /* Header text color */
+
+    background-color: #1F1E2C;
+    border-color: white;
+}
+
+/* Change header text color */
+.table-view .column-header .label {
+    -fx-text-fill: #ffffff; /* Header row text color */
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: #1F1E2C;
+    -fx-text-fill: #e0e0e0;
+
+    background-color: #1F1E2C;
+}
+
+.table-view .table-row-cell:filled {
+    -fx-border-color: white;
+
+    border-color: white;
+
+    
+}
+
+.table-view .table-cell {
+    -fx-background-color: #1F1E2C;
+    -fx-text-fill: #e0e0e0;
+
+    background-color: #1F1E2C;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #1F1E2C;
+
+    background-color: #1F1E2C;
+}
+
+.table-view .table-row-cell:even {
+    -fx-background-color: #1F1E2C;
+
+    background-color: #1F1E2C;
+}
+
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #2D2D45; /* Darker thumb */
+    -fx-background-insets: 0;
+    -fx-background-radius: 5px;
+
+    background-color: transparent;
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent; /* Dark track */
+    -fx-background-insets: 0;
+    -fx-background-radius: 5px;
+
+    background-color: transparent;
+}
+
+.scroll-bar:vertical .increment-button,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color: #444; /* Dark buttons */
+    background-color: #444;
+}
+
+/* HORIZON */
+
+
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    background-color: transparent;
+}
+
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #2D2D45; /* Darker thumb */
+    -fx-background-insets: 0;
+    -fx-background-radius: 5px;
+
+    background-color: transparent;
+}
+
+.scroll-bar:horizontal .track {
+    -fx-background-color: #2D2D45; /* Dark track */
+    -fx-background-insets: 0;
+    -fx-background-radius: 5px;
+
+    background-color: transparent;
+}
+
+.scroll-bar:horizontal .increment-button,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color: #444; /* Dark buttons */
+    background-color: #444;
+}

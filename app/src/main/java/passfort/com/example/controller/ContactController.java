@@ -69,7 +69,7 @@ public class ContactController {
                 if (rs.next()) {
                     return new String[]{rs.getString("username"), rs.getString("password")};
                 } else {
-                    return null; // No data found for the app
+                    return null; 
                 }
             }
         } catch (SQLException e) {
@@ -113,7 +113,7 @@ public class ContactController {
 
     public int authenticateUser(String username, String password) {
         if (!checkUserExists(username)) {
-            return 0; // Account not found
+            return 0; 
         } 
 
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
@@ -123,13 +123,13 @@ public class ContactController {
             pstmt.setString(2, password);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getInt("id"); // Authentication successful
+                    return rs.getInt("id");
                 }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return -1; // Incorrect password
+        return -1; 
     }
 
     public boolean deleteUserByUsername(String username) {
@@ -251,4 +251,51 @@ public class ContactController {
             throw e;
         }
     }
+    public ObservableList<UserAppData> selectAllUserAppData() {
+        String sql = "SELECT userId, username, password, apps FROM UserAppData";
+        ObservableList<UserAppData> userAppDataList = FXCollections.observableArrayList();
+    
+        try (Connection conn = DatabaseConnection.connectToAppDatabase();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+    
+            while (rs.next()) {
+                int userId = rs.getInt("userId");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String apps = rs.getString("apps");
+    
+                UserAppData userAppData = new UserAppData(userId, username, password, apps);
+                userAppDataList.add(userAppData);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return userAppDataList;
+    }
+
+    public ObservableList<UserAppData> selectUserAppDataByUserId(int uId) {
+        String sql = "SELECT userId, username, password, apps FROM UserAppData WHERE userId = ?";
+        ObservableList<UserAppData> userAppDataList = FXCollections.observableArrayList();
+    
+        try (Connection conn = DatabaseConnection.connectToAppDatabase();            
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, uId);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int userId = rs.getInt("userId");
+                        String username = rs.getString("username");
+                        String password = rs.getString("password");
+                        String apps = rs.getString("apps");
+            
+                        UserAppData userAppData = new UserAppData(userId, username, password, apps);
+                        userAppDataList.add(userAppData);
+                    }
+                }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return userAppDataList;
+    }
+
 }

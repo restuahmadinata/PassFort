@@ -71,11 +71,7 @@ public class GenerateScene {
         Button passwordDatabase = new Button("→ Password database");
         passwordDatabase.setOnAction(v -> {
             DatabaseScene databaseScene = new DatabaseScene(primaryStage, userId);
-            try {
-                databaseScene.show();
-            } catch (SQLiteException e) {
-                e.printStackTrace();
-            }
+            databaseScene.show();
         });
 
         Button aboutUs = new Button("ABOUT US");

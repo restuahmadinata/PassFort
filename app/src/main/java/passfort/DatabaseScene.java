@@ -1,13 +1,16 @@
 package passfort;
 
-
 import org.sqlite.SQLiteException;
 
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import passfort.com.example.controller.ContactController;
+import passfort.models.UserAppData;
 
 public class DatabaseScene {
     private Stage primaryStage;
@@ -18,16 +21,13 @@ public class DatabaseScene {
         this.userId = userId;
     }
 
-    public void show() throws SQLiteException {
-        // Create the main layout
+    public void show() {
         BorderPane mainLayout = new BorderPane();
 
-        // Create the menu
         VBox menu = new VBox();
         menu.setSpacing(10);
         menu.setId("menu");
 
-        // Create menu items
         Label menuTitle = new Label("MENU");
         menuTitle.setId("menuTitle");
 
@@ -70,11 +70,7 @@ public class DatabaseScene {
         Button passwordDatabase = new Button("→ Password database");
         passwordDatabase.setOnAction(v -> {
             DatabaseScene databaseScene = new DatabaseScene(primaryStage, userId);
-            try {
-                databaseScene.show();
-            } catch (SQLiteException e) {
-                e.printStackTrace();
-            }
+            databaseScene.show();
         });
 
         Button aboutUs = new Button("ABOUT US");
@@ -88,7 +84,10 @@ public class DatabaseScene {
         });
 
         Button exit = new Button("EXIT");
-        exit.setOnAction(v -> Platform.exit());
+        exit.setOnAction(v -> {
+            LoginScene loginScene = new LoginScene(primaryStage, userId);
+            loginScene.show();
+        });
 
         newPassword.getStyleClass().add("menuButton");
         updatePassword.getStyleClass().add("menuButton");
@@ -98,33 +97,64 @@ public class DatabaseScene {
         aboutUs.getStyleClass().add("menuButton");
         exit.getStyleClass().add("menuButton");
 
-        // Add items to the menu
         menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, aboutUs, exit);
 
-        // Create the form layout
         VBox formLayout = new VBox();
         formLayout.setId("form");
 
-        // Form title
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setId("scrollPane");
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPrefHeight(500);
+
         VBox titleContainer = new VBox();
         Label formTitle = new Label("Password Database");
         formTitle.setId("formTitle");
 
-        Label formSubtitle = new Label("Still on development :'(");
-        
+        Label formSubtitle = new Label("Here we collect every single account you've created");
         formSubtitle.setId("formSubtitle");
         titleContainer.getChildren().addAll(formTitle, formSubtitle);
         titleContainer.setSpacing(3);
 
-        // Add fields to the form layout
-        formLayout.getChildren().addAll(titleContainer);
+        TableView<UserAppData> tableView = new TableView<>();
+        tableView.setItems(new ContactController().selectUserAppDataByUserId(userId));
+
+        TableColumn<UserAppData, String> appCol = new TableColumn<>("App");
+        appCol.setCellValueFactory(new PropertyValueFactory<>("apps"));
+        appCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.3));
+
+        TableColumn<UserAppData, String> usernameCol = new TableColumn<>("Username");
+        usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+        usernameCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.3));
+
+        TableColumn<UserAppData, String> passwordCol = new TableColumn<>("Password");
+        passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
+        passwordCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.4));
+        passwordCol.setVisible(false); // Initially hide the password column
+
+        tableView.getColumns().addAll(appCol, usernameCol, passwordCol);
+
+        Button togglePasswords = new Button("Show Passwords");
+        togglePasswords.setId("showPass");
+        togglePasswords.setOnAction(event -> {
+            if (passwordCol.isVisible()) {
+                passwordCol.setVisible(false);
+                togglePasswords.setText("Show Pass");
+            } else {
+                passwordCol.setVisible(true);
+                togglePasswords.setText("Hide Pass");
+            }
+        });
+
+        Label line = new Label();
+
+        formLayout.getChildren().addAll(titleContainer, tableView, togglePasswords, line);
         formLayout.setSpacing(50);
+        scrollPane.setContent(formLayout);
 
-        // Add the menu and form layout to the main layout
         mainLayout.setLeft(menu);
-        mainLayout.setCenter(formLayout);
+        mainLayout.setCenter(scrollPane);
 
-        // Create the scene and set it to the stage
         Scene scene = new Scene(mainLayout, 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/styles/database.css").toExternalForm());
         primaryStage.setResizable(false);
