@@ -27,10 +27,10 @@ public class AdminThanos {
         // Form title
         VBox titleContainer = new VBox();
 
-        Label greeting = new Label("SUDAH SAATNYA...");
+        Label greeting = new Label("The time is nigh.");
         greeting.setId("greeting");
 
-        Label formTitle = new Label("ADMIN THANOS MODE");
+        Label formTitle = new Label("ADMIN - THANOS MODE");
         formTitle.setId("formTitle");
 
         titleContainer.getChildren().addAll(greeting, formTitle);
@@ -38,7 +38,7 @@ public class AdminThanos {
         titleContainer.setAlignment(Pos.CENTER);
 
         // Add button
-        Label fieldLabel = new Label("Hilangkan user membandel");
+        Label fieldLabel = new Label("Unalive a user!");
         fieldLabel.setId("fieldLabel");
 
         TextField userField = new TextField();
@@ -80,7 +80,7 @@ public class AdminThanos {
         fieldButtonContainer.setSpacing(20);
         fieldButtonContainer.setAlignment(Pos.CENTER);
 
-        Button exit = new Button("Mode Admin Normal");
+        Button exit = new Button("Admin - Normal Mode");
         exit.setId("exit");
         exit.setOnAction(v -> {
             AdminScene adminScene = new AdminScene(primaryStage, authResult);

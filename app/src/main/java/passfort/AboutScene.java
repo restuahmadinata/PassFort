@@ -151,7 +151,7 @@ public class AboutScene {
         };
         String[] imagePaths = {
             "images/radinata.jpg",
-            "images/alif_kobokan.jpg",
+            "images/alif.jpg",
             "images/zakiyah.jpg",
             "images/kelvin_l.png"
         };

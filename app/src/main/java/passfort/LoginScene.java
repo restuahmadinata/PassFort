@@ -105,7 +105,7 @@ public class LoginScene {
             String password = passwordTextField.getText();
 
             if (username.isEmpty() || password.isEmpty()) {
-                showAlert(Alert.AlertType.ERROR, "Input Error", "Semua field harus diisi!");
+                showAlert(Alert.AlertType.ERROR, "Input Error", "Please fill in all fields!");
             } else {
                 authResult = authenticate(username, password); // Get the result code
                 if (authResult > 0) {
@@ -122,7 +122,7 @@ public class LoginScene {
                 } else if (authResult == -1) {
                     showAlert(Alert.AlertType.ERROR, "Input Error", "Wrong password!");
                 } else {
-                    showAlert(Alert.AlertType.ERROR, "Input Error", "Akun tidak ditemukan!");
+                    showAlert(Alert.AlertType.ERROR, "Input Error", "Account not found!");
                 }
             }
         });

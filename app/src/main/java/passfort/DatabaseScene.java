@@ -1,8 +1,6 @@
 package passfort;
 
 import org.sqlite.SQLiteException;
-
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;

@@ -106,13 +106,13 @@ public class SignScene {
 
             if (username.isEmpty() || password.isEmpty()) {
                 // Display an error message if the username or password is empty
-                showAlert(Alert.AlertType.ERROR, "Input Error", "Semua field harus diisi!");
+                showAlert(Alert.AlertType.ERROR, "Input Error", "Please fill in all fields!");
             } else {
                 try {
                     // Create an instance of ContactController and check if the username already exists
                     ContactController contactController = new ContactController();
                     if (contactController.isUsernameTaken(username)) {
-                        showAlert(Alert.AlertType.ERROR, "Registration Error", "Username sudah digunakan");
+                        showAlert(Alert.AlertType.ERROR, "Registration Error", "Username is already used");
                     } else {
                         contactController.insertUser(username, password, "Regular");
                         authResult = authenticate(username, password);
@@ -121,7 +121,7 @@ public class SignScene {
                         createScene.show();
                     }
                 } catch (Exception e) {
-                    showAlert(Alert.AlertType.ERROR, "Database Error", "Tidak dapat terhubung ke database, coba lagi nanti");
+                    showAlert(Alert.AlertType.ERROR, "Database Error", "Can't connect to database!");
                 }
             }
         });

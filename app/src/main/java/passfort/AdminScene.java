@@ -24,13 +24,13 @@ public class AdminScene {
         // Form title
         VBox titleContainer = new VBox();
 
-        Label greeting = new Label("PENAMPAKAN SOSOK ADMIN MERUDAPAKSA PINTU!");
+        Label greeting = new Label("WELCOME TO");
         greeting.setId("greeting");
 
         Label formTitle = new Label("ADMIN ACCESS");
         formTitle.setId("formTitle");
 
-        Label formSubtitle = new Label("Pilih kekuasan anda!");
+        Label formSubtitle = new Label("Want to unalive a username?");
         formSubtitle.setId("formSubtitle");
         titleContainer.getChildren().addAll(greeting, formTitle, formSubtitle);
         titleContainer.setSpacing(3);
@@ -50,7 +50,7 @@ public class AdminScene {
         buttonContainer.setSpacing(20);
         buttonContainer.setAlignment(Pos.CENTER);
 
-        Button exit = new Button("Jadi kroco");
+        Button exit = new Button("Exit Admin Mode");
         exit.setId("exit");
         exit.setOnAction(v -> {
             LoginScene loginScene = new LoginScene(primaryStage, authResult);
