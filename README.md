@@ -1,4 +1,4 @@
-![image](https://github.com/restuahmadinata/PassFort/assets/143770433/f33be697-5885-4cc1-b995-c27cbde9d00f)![image](https://github.com/restuahmadinata/PassFort/assets/143770433/ee0b532f-1f07-4558-ab55-c023576377b6)# PassFort
+# PassFort
 
 Passfort adalah aplikasi password manager yang dibuat menggunakan Javafx dengan tampilan minimalis dan fitur esensial.
 
