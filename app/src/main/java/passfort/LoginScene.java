@@ -43,13 +43,13 @@ public class LoginScene {
         VBox formContainer = new VBox();
 
         HBox usernameField = new HBox();
-        Label usernameLabel = new Label("username\t-→");
+        Label usernameLabel = new Label("Username\t-→");
         usernameLabel.getStyleClass().add("fieldLabel");
 
         TextField usernameTextField = new TextField();
         usernameTextField.getStyleClass().add("field");
         usernameTextField.setPrefWidth(460);
-        usernameTextField.setPrefHeight(30);
+        usernameTextField.setPrefHeight(20);
         usernameField.getChildren().addAll(usernameLabel, usernameTextField);
         usernameField.setSpacing(20);
         usernameField.setId("username");
@@ -57,20 +57,20 @@ public class LoginScene {
 
         // Password HBox
         HBox passwordField = new HBox();
-        Label passwordLabel = new Label("password\t-→");
+        Label passwordLabel = new Label("Password\t-→");
         passwordLabel.getStyleClass().add("fieldLabel");
-        passwordLabel.setPrefWidth(275);
+        passwordLabel.setPrefWidth(230);
 
         PasswordField passwordTextField = new PasswordField();
         passwordTextField.getStyleClass().add("field");
         passwordTextField.setPrefWidth(350);
-        passwordTextField.setPrefHeight(30);
+        passwordTextField.setPrefHeight(20);
 
         // TextField to show password
         TextField textField = new TextField();
         textField.getStyleClass().add("field");
         textField.setPrefWidth(350);
-        textField.setPrefHeight(30);
+        textField.setPrefHeight(20);
         textField.setManaged(false);
         textField.setVisible(false);
 
@@ -93,32 +93,34 @@ public class LoginScene {
         passwordField.setAlignment(Pos.CENTER);
 
         formContainer.getChildren().addAll(usernameField, passwordField);
-        formContainer.setSpacing(50);
+        formContainer.setSpacing(30);
         formContainer.setAlignment(Pos.CENTER);
 
         // Add button
-        Button loginButton = new Button("LOG IN");
+        Button loginButton = new Button("SIGN IN");
         loginButton.setId("loginButton");
-
+        
         loginButton.setOnAction(v -> {
             String username = usernameTextField.getText();
             String password = passwordTextField.getText();
-
+        
             if (username.isEmpty() || password.isEmpty()) {
                 showAlert(Alert.AlertType.ERROR, "Input Error", "Please fill in all fields!");
             } else {
-                authResult = authenticate(username, password); // Get the result code
+                ContactController contactController = new ContactController();
+                int authResult = contactController.authenticateUser(username, password);
+                
                 if (authResult > 0) {
-                    if (username.equals("admin") && password.equals("ambatukam")) {
+                    if (username.equals("miraiKuriyama") && password.equals("alifrestuzakiya999")) {
                         showAlert(Alert.AlertType.INFORMATION, "Success", "Admin has been logged in!");
                         AdminScene adminScene = new AdminScene(primaryStage, authResult);
                         adminScene.show();
                     } else {
                         showAlert(Alert.AlertType.INFORMATION, "Success", "User logged in successfully!");
-                        CreateScene createScene = new CreateScene(primaryStage, authResult);
-                        createScene.show();
+                        DatabaseScene databaseScene = new DatabaseScene(primaryStage, authResult);
+                        databaseScene.show();
                     }
-
+        
                 } else if (authResult == -1) {
                     showAlert(Alert.AlertType.ERROR, "Input Error", "Wrong password!");
                 } else {
@@ -127,7 +129,7 @@ public class LoginScene {
             }
         });
 
-        Button signButton = new Button("No account? Sign In!");
+        Button signButton = new Button("No account? Sign Up!");
         signButton.setId("signButton");
 
         signButton.setOnAction(v -> {
@@ -151,10 +153,6 @@ public class LoginScene {
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    private int authenticate(String username, String password) {
-        return contactController.authenticateUser(username, password);
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {

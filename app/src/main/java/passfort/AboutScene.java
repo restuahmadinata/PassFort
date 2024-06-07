@@ -84,6 +84,17 @@ public class AboutScene {
             databaseScene.show();
         });
 
+        Button userProfile = new Button("PROFILE");
+        userProfile.setOnAction(v -> {
+            UserScene userScene = new UserScene(primaryStage, userId);
+            try {
+                userScene.show();
+            } catch (SQLiteException e) {
+
+                e.printStackTrace();
+            }
+        });
+
         Button aboutUs = new Button("ABOUT US");
         aboutUs.setOnAction(v -> {
             AboutScene aboutScene = new AboutScene(primaryStage, userId);
@@ -105,11 +116,12 @@ public class AboutScene {
         deletePassword.getStyleClass().add("menuButton");
         generatePassword.getStyleClass().add("menuButton");
         passwordDatabase.getStyleClass().add("menuButton");
+        userProfile.getStyleClass().add("menuButton");
         aboutUs.setId("aboutMenu");
         exit.getStyleClass().add("menuButton");
 
         // Add items to the menu
-        menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, aboutUs, exit);
+        menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, userProfile, aboutUs, exit);
 
 
         // InfoLayout
@@ -145,7 +157,7 @@ public class AboutScene {
         String[] usernames = {"Radinata", "Alief Kobokan", "Zakiya", "Kelvin L"};
         String[] descriptions = {
             "Suaminya Mirai Kuriyama.\nMengisi waktu luang dengan nonton anime atau denger musik.",
-            "Thats f*cking Valorant right there.\nNone of that pansy a** d*ck\ntugging slow disciplined default smile for the camera bullshit.\nMen overpeek, men lose every anti-eco,\nmen knife the defuser, men run it down every round.\nFucking hard core d*ck in the a** butterball tacshooter\nf*ck it chuck it game time sh*t.\nTake it to the showers. Raze ults get shoved\nin places you don’t even remember.\nWe win together we celebrate together.\nValorant is back baby.",
+            "Makhluk ini bernafas dengan Valorant",
             "Msuk sisfo auto pilot dr ortu.\nsuka makan eskrim.\nmotto hidup \"tidur itu optional\"",
             "Our mentor."
         };

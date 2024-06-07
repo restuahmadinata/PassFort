@@ -70,6 +70,18 @@ public class CreateScene {
             databaseScene.show();
         });
 
+
+        Button userProfile = new Button("PROFILE");
+        userProfile.setOnAction(v -> {
+            UserScene userScene = new UserScene(primaryStage, userId);
+            try {
+                userScene.show();
+            } catch (SQLiteException e) {
+
+                e.printStackTrace();
+            }
+        });
+
         Button aboutUs = new Button("ABOUT US");
         aboutUs.setOnAction(v -> {
             AboutScene aboutScene = new AboutScene(primaryStage, userId);
@@ -92,10 +104,11 @@ public class CreateScene {
         deletePassword.getStyleClass().add("menuButton");
         generatePassword.getStyleClass().add("menuButton");
         passwordDatabase.getStyleClass().add("menuButton");
+        userProfile.getStyleClass().add("menuButton");
         aboutUs.getStyleClass().add("menuButton");
         exit.getStyleClass().add("menuButton");
 
-        menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, aboutUs, exit);
+        menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, userProfile, aboutUs, exit);
 
         VBox formLayout = new VBox();
         formLayout.setId("form");
@@ -201,19 +214,15 @@ public class CreateScene {
             
             ContactController contactController = new ContactController();
             try {
-                // Check if the user already exists
                 boolean userExists = contactController.checkUserExistsForApp(username, apps, userId);
                 
                 if (userExists) {
-                    // Show error message if user already exists
                     showAlert(Alert.AlertType.ERROR, "Error", "User Already Exists. The user already exists in the AppDatabase.");
                 } else {
-                    // Insert user data to the selected app database
                     contactController.insertUserToAppDatabase(userId, username, password, apps);
                     showAlert(Alert.AlertType.INFORMATION, "Success", "User Added. The user has been added successfully to AppDatabase.");
                 }
             } catch (SQLException e) {
-                // Handle error if insertion fails
                 e.printStackTrace();
                 showAlert(Alert.AlertType.ERROR, "Error", "Database Error. Failed to add user to AppDatabase.");
             }

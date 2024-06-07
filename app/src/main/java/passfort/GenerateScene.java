@@ -74,6 +74,17 @@ public class GenerateScene {
             databaseScene.show();
         });
 
+        Button userProfile = new Button("PROFILE");
+        userProfile.setOnAction(v -> {
+            UserScene userScene = new UserScene(primaryStage, userId);
+            try {
+                userScene.show();
+            } catch (SQLiteException e) {
+
+                e.printStackTrace();
+            }
+        });
+
         Button aboutUs = new Button("ABOUT US");
         aboutUs.setOnAction(v -> {
             AboutScene aboutScene = new AboutScene(primaryStage, userId);
@@ -95,11 +106,12 @@ public class GenerateScene {
         deletePassword.getStyleClass().add("menuButton");
         generatePassword.setId("generateMenu");
         passwordDatabase.getStyleClass().add("menuButton");
+        userProfile.getStyleClass().add("menuButton");
         aboutUs.getStyleClass().add("menuButton");
         exit.getStyleClass().add("menuButton");
 
         // Add items to the menu
-        menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, aboutUs, exit);
+        menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, userProfile, aboutUs, exit);
 
         // Create the form layout
         VBox formLayout = new VBox();

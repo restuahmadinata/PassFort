@@ -43,6 +43,7 @@ public class AdminThanos {
 
         TextField userField = new TextField();
         userField.setId("userField");
+        userField.setMaxWidth(300);
 
         Button delete = new Button("BITES!");
         delete.setId("delete");
@@ -52,6 +53,12 @@ public class AdminThanos {
                 showAlert(Alert.AlertType.ERROR, "Input Error", "Username field must not be empty!");
                 return;
             }
+
+            if (username.equals("miraiKuriyama")) {
+                showAlert(Alert.AlertType.ERROR, "Deletion Error", "Admin account cannot be deleted.");
+                return;
+            }
+
             try {
                 if (contactController.isUsernameTaken(username)) {
                     Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);

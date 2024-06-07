@@ -10,15 +10,20 @@ import javafx.stage.Stage;
 import passfort.com.example.controller.ContactController;
 import passfort.models.UserAppData;
 
+import java.util.Optional;
+
 public class DatabaseScene {
     private Stage primaryStage;
     private int userId;
+    private ContactController contactController;
 
     public DatabaseScene(Stage primaryStage, int userId) {
         this.primaryStage = primaryStage;
         this.userId = userId;
+        this.contactController = new ContactController();
     }
 
+    @SuppressWarnings("unchecked")
     public void show() {
         BorderPane mainLayout = new BorderPane();
 
@@ -71,6 +76,17 @@ public class DatabaseScene {
             databaseScene.show();
         });
 
+        Button userProfile = new Button("PROFILE");
+        userProfile.setOnAction(v -> {
+            UserScene userScene = new UserScene(primaryStage, userId);
+            try {
+                userScene.show();
+            } catch (SQLiteException e) {
+
+                e.printStackTrace();
+            }
+        });
+
         Button aboutUs = new Button("ABOUT US");
         aboutUs.setOnAction(v -> {
             AboutScene aboutScene = new AboutScene(primaryStage, userId);
@@ -92,10 +108,11 @@ public class DatabaseScene {
         deletePassword.getStyleClass().add("menuButton");
         generatePassword.getStyleClass().add("menuButton");
         passwordDatabase.setId("databaseMenu");
+        userProfile.getStyleClass().add("menuButton");
         aboutUs.getStyleClass().add("menuButton");
         exit.getStyleClass().add("menuButton");
 
-        menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, aboutUs, exit);
+        menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, userProfile, aboutUs, exit);
 
         VBox formLayout = new VBox();
         formLayout.setId("form");
@@ -115,7 +132,7 @@ public class DatabaseScene {
         titleContainer.setSpacing(3);
 
         TableView<UserAppData> tableView = new TableView<>();
-        tableView.setItems(new ContactController().selectUserAppDataByUserId(userId));
+        tableView.setItems(contactController.selectUserAppDataByUserId(userId));
 
         TableColumn<UserAppData, String> appCol = new TableColumn<>("App");
         appCol.setCellValueFactory(new PropertyValueFactory<>("apps"));
@@ -130,19 +147,38 @@ public class DatabaseScene {
         passwordCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.4));
         passwordCol.setVisible(false); // Initially hide the password column
 
+        
         tableView.getColumns().addAll(appCol, usernameCol, passwordCol);
 
         Button togglePasswords = new Button("Show Passwords");
         togglePasswords.setId("showPass");
+        
         togglePasswords.setOnAction(event -> {
             if (passwordCol.isVisible()) {
                 passwordCol.setVisible(false);
-                togglePasswords.setText("Show Pass");
+                togglePasswords.setText("Show Passwords");
             } else {
-                passwordCol.setVisible(true);
-                togglePasswords.setText("Hide Pass");
+                // Show a dialog to ask for the user's password
+                PasswordField passwordFieldUser = new PasswordField();
+                passwordFieldUser.setPromptText("Enter your password");
+                Dialog<ButtonType> dialog = new Dialog<>();
+                dialog.setTitle("Password Verification");
+                dialog.setHeaderText("Please enter your password to show all saved passwords");
+                dialog.getDialogPane().setContent(passwordFieldUser);
+                dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        
+                Optional<ButtonType> result = dialog.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    String inputPassword = passwordFieldUser.getText();
+                    if (contactController.verifyPassword(userId, inputPassword)) {
+                        passwordCol.setVisible(true);
+                        togglePasswords.setText("Hide Passwords");
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Authentication Failed", "The password you entered is incorrect.");
+                    }
+                }
             }
-        });
+        });        
 
         Label line = new Label();
 
@@ -158,5 +194,16 @@ public class DatabaseScene {
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("/styles/database.css").toExternalForm());
+        alert.showAndWait();
     }
 }

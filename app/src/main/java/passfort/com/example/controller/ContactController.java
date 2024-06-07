@@ -17,7 +17,8 @@ public class ContactController {
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " username TEXT NOT NULL UNIQUE,"
                 + " password TEXT NOT NULL,"
-                + " role TEXT NOT NULL"
+                + " role TEXT NOT NULL,"
+                + " fullName TEXT NOT NULL"
                 + ");";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -28,13 +29,14 @@ public class ContactController {
         }
     }
 
-    public void insertUser(String username, String password, String role) throws SQLException {
-        String sql = "INSERT INTO users(username, password, role) VALUES(?, ?, ?)";
+    public void insertUser(String username, String password, String role, String fullName) throws SQLException {
+        String sql = "INSERT INTO users(username, password, role, fullName) VALUES(?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             pstmt.setString(3, role);
+            pstmt.setString(4, fullName);
             pstmt.executeUpdate();
             System.out.println("User data inserted successfully.");
         } catch (SQLException e) {
@@ -297,5 +299,53 @@ public class ContactController {
         }
         return userAppDataList;
     }
+
+    public String getUserFullName(int userId) {
+        String sql = "SELECT fullName FROM users WHERE id = ?";
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("fullName");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public void updateUserPassword(int userId, String newPassword) {
+        String sql = "UPDATE users SET password = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, newPassword);
+            pstmt.setInt(2, userId);
+            pstmt.executeUpdate();
+            System.out.println("User password updated successfully.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public boolean verifyPassword(int userId, String inputPassword) {
+        String sql = "SELECT password FROM users WHERE id = ?";
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String storedPassword = rs.getString("password");
+                    // Gunakan operasi pembanding sederhana untuk memeriksa kesesuaian password
+                    return inputPassword.equals(storedPassword);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    
 
 }

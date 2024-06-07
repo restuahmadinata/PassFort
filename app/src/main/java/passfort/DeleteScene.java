@@ -1,9 +1,8 @@
 package passfort;
 
 import java.sql.SQLException;
-
 import org.sqlite.SQLiteException;
-
+import java.util.Optional;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -74,6 +73,17 @@ public class DeleteScene {
             databaseScene.show();
         });
 
+        Button userProfile = new Button("PROFILE");
+        userProfile.setOnAction(v -> {
+            UserScene userScene = new UserScene(primaryStage, userId);
+            try {
+                userScene.show();
+            } catch (SQLiteException e) {
+
+                e.printStackTrace();
+            }
+        });
+
         Button aboutUs = new Button("ABOUT US");
         aboutUs.setOnAction(v -> {
             AboutScene aboutScene = new AboutScene(primaryStage, userId);
@@ -95,11 +105,12 @@ public class DeleteScene {
         deletePassword.setId("deleteMenu");
         generatePassword.getStyleClass().add("menuButton");
         passwordDatabase.getStyleClass().add("menuButton");
+        userProfile.getStyleClass().add("menuButton");
         aboutUs.getStyleClass().add("menuButton");
         exit.getStyleClass().add("menuButton");
 
         // Add items to the menu
-        menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, aboutUs, exit);
+        menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, userProfile, aboutUs, exit);
 
         // Create the form layout
         VBox formLayout = new VBox();
@@ -155,6 +166,66 @@ public class DeleteScene {
         Button deleteButton = new Button("Delete");
         deleteButton.setId("deleteButton");
 
+        deleteButton.setOnAction(event -> {
+            String app = appComboBox.getValue();
+            String username = usernameTextField.getText();
+        
+            if (app != null && !app.isEmpty() && username != null && !username.isEmpty()) {
+                // Create the custom dialog.
+                Dialog<String> dialog = new Dialog<>();
+                dialog.setTitle("Password Verification");
+                dialog.setHeaderText("Please enter your password to proceed with deletion");
+        
+                // Set the button types.
+                ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
+        
+                // Create the password field.
+                PasswordField passwordFieldUser = new PasswordField();
+                passwordFieldUser.setPromptText("Password");
+        
+                VBox content = new VBox();
+                content.setSpacing(10);
+                content.getChildren().addAll(new Label("Password:"), passwordFieldUser);
+                dialog.getDialogPane().setContent(content);
+        
+                // Convert the result to a password when the OK button is clicked.
+                dialog.setResultConverter(dialogButton -> {
+                    if (dialogButton == okButtonType) {
+                        return passwordFieldUser.getText();
+                    }
+                    return null;
+                });
+        
+                // Show the dialog and wait for the result.
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(password -> {
+                    ContactController contactController = new ContactController();
+                    try {
+                        boolean passwordCorrect = contactController.verifyPassword(userId, password);
+                        if (passwordCorrect) {
+                            boolean userExistsForApp = contactController.checkUserExistsForApp(username, app, userId);
+                            if (userExistsForApp) {
+                                contactController.deleteUserFromAppDatabase(username, app, userId);
+                                showAlert(Alert.AlertType.INFORMATION, "Success", "User data deleted successfully from AppDatabase.");
+                            } else {
+                                showAlert(Alert.AlertType.ERROR, "Error", "User or app not found in the AppDatabase.");
+                            }
+                        } else {
+                            showAlert(Alert.AlertType.ERROR, "Error", "Incorrect password. Please try again.");
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        showAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while accessing the database.");
+                    }
+                });
+        
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all fields.");
+            }
+        });
+        
+
         HBox buttonContainer = new HBox(line, deleteButton);
 
         // Add fields to the form layout
@@ -172,36 +243,8 @@ public class DeleteScene {
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        // Set the action for the deleteButton
-        deleteButton.setOnAction(event -> {
-            String app = appComboBox.getValue();
-            String username = usernameTextField.getText();
-
-            if (app != null && !app.isEmpty() && username != null && !username.isEmpty()) {
-                ContactController contactController = new ContactController();
-                try {
-                    // Check if the user exists in the AppDatabase
-                    boolean userExistsForApp = contactController.checkUserExistsForApp(username, app, userId);
-                    if (userExistsForApp) {
-                        // Delete the user from AppDatabase
-                        contactController.deleteUserFromAppDatabase(username, app, userId);
-                        // Show success alert
-                        showAlert(Alert.AlertType.INFORMATION, "Success", "User data deleted successfully from AppDatabase.");
-                    } else {
-                        // Show error alert if user or app not found
-                        showAlert(Alert.AlertType.ERROR, "Error", "User or app not found in the AppDatabase.");
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    showAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while accessing the database.");
-                }
-            } else {
-                // Show error alert if any field is empty
-                showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all fields.");
-            }
-        });
     }
+
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);

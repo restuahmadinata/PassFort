@@ -24,10 +24,10 @@
 
 .fieldLabel {
     -fx-text-fill: white;
-    -fx-font-size: 24px;
+    -fx-font-size: 20px;
 
     /* Standard Property */
-    font-size: 24px;
+    font-size: 20px;
 }
 
 /* CSS Form */

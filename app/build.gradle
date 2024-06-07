@@ -13,6 +13,7 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'org.openjfx:javafx-controls:17.0.0' //JavaFX
     implementation 'org.xerial:sqlite-jdbc:3.45.3.0' //database SQlite
+    implementation 'org.mindrot:jbcrypt:0.4'
 }
  
 

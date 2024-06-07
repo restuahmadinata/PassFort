@@ -29,7 +29,7 @@ public class SignScene {
 
         Label greeting = new Label("Welcome to");
         greeting.setId("greeting");
- 
+
         Label formTitle = new Label("PASSFORT");
         formTitle.setId("formTitle");
 
@@ -42,35 +42,50 @@ public class SignScene {
         // Create form fields
         VBox formContainer = new VBox();
 
+        // Full Name Field
+        HBox fullNameField = new HBox();
+        Label fullNameLabel = new Label("Your Name\t-→");
+        fullNameLabel.getStyleClass().add("fieldLabel");
+
+        TextField fullNameTextField = new TextField();
+        fullNameTextField.getStyleClass().add("field");
+        fullNameTextField.setPrefWidth(460);
+        fullNameTextField.setPrefHeight(20);
+        fullNameField.getChildren().addAll(fullNameLabel, fullNameTextField);
+        fullNameField.setSpacing(20);
+        fullNameField.setId("fullName");
+        fullNameField.setAlignment(Pos.CENTER);
+
+        // Username Field
         HBox usernameField = new HBox();
-        Label usernameLabel = new Label("username\t-→");
+        Label usernameLabel = new Label("Username\t-→");
         usernameLabel.getStyleClass().add("fieldLabel");
 
         TextField usernameTextField = new TextField();
         usernameTextField.getStyleClass().add("field");
         usernameTextField.setPrefWidth(460);
-        usernameTextField.setPrefHeight(30);
+        usernameTextField.setPrefHeight(20);
         usernameField.getChildren().addAll(usernameLabel, usernameTextField);
         usernameField.setSpacing(20);
         usernameField.setId("username");
         usernameField.setAlignment(Pos.CENTER);
 
-        // Password HBox
+        // Password Field
         HBox passwordField = new HBox();
-        Label passwordLabel = new Label("password\t-→");
+        Label passwordLabel = new Label("Password\t-→");
         passwordLabel.getStyleClass().add("fieldLabel");
-        passwordLabel.setPrefWidth(275);
+        passwordLabel.setPrefWidth(230);
 
         PasswordField passwordTextField = new PasswordField();
         passwordTextField.getStyleClass().add("field");
         passwordTextField.setPrefWidth(350);
-        passwordTextField.setPrefHeight(30);
+        passwordTextField.setPrefHeight(20);
 
         // TextField to show password
         TextField textField = new TextField();
         textField.getStyleClass().add("field");
         textField.setPrefWidth(350);
-        textField.setPrefHeight(30);
+        textField.setPrefHeight(20);
         textField.setManaged(false);
         textField.setVisible(false);
 
@@ -92,8 +107,23 @@ public class SignScene {
         passwordField.setSpacing(5);
         passwordField.setAlignment(Pos.CENTER);
 
-        formContainer.getChildren().addAll(usernameField, passwordField);
-        formContainer.setSpacing(50);
+        // Confirm Password Field
+        HBox confirmPasswordField = new HBox();
+        Label confirmPasswordLabel = new Label("Confirm Pass\t-→");
+        confirmPasswordLabel.getStyleClass().add("fieldLabel");
+
+        PasswordField confirmPasswordTextField = new PasswordField();
+        confirmPasswordTextField.getStyleClass().add("field");
+        confirmPasswordTextField.setPrefWidth(460);
+        confirmPasswordTextField.setPrefHeight(20);
+
+        confirmPasswordField.getChildren().addAll(confirmPasswordLabel, confirmPasswordTextField);
+        confirmPasswordField.setSpacing(20);
+        confirmPasswordField.setId("confirmPassword");
+        confirmPasswordField.setAlignment(Pos.CENTER);
+
+        formContainer.getChildren().addAll(fullNameField, usernameField, passwordField, confirmPasswordField);
+        formContainer.setSpacing(30);
         formContainer.setAlignment(Pos.CENTER);
 
         // Add button
@@ -101,12 +131,17 @@ public class SignScene {
         signUpButton.setId("signButton");
 
         signUpButton.setOnAction(event -> {
+            String fullName = fullNameTextField.getText();
             String username = usernameTextField.getText();
             String password = passwordTextField.getText();
+            String confirmPassword = confirmPasswordTextField.getText();
 
-            if (username.isEmpty() || password.isEmpty()) {
-                // Display an error message if the username or password is empty
+            if (fullName.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                // Display an error message if any field is empty
                 showAlert(Alert.AlertType.ERROR, "Input Error", "Please fill in all fields!");
+            } else if (!password.equals(confirmPassword)) {
+                // Display an error message if the passwords do not match
+                showAlert(Alert.AlertType.ERROR, "Input Error", "Passwords do not match!");
             } else {
                 try {
                     // Create an instance of ContactController and check if the username already exists
@@ -114,11 +149,11 @@ public class SignScene {
                     if (contactController.isUsernameTaken(username)) {
                         showAlert(Alert.AlertType.ERROR, "Registration Error", "Username is already used");
                     } else {
-                        contactController.insertUser(username, password, "Regular");
+                        contactController.insertUser(username, password, "Regular", fullName);
                         authResult = authenticate(username, password);
                         showAlert(Alert.AlertType.INFORMATION, "Success", "User signed up successfully!");
-                        CreateScene createScene = new CreateScene(primaryStage, authResult);
-                        createScene.show();
+                        DatabaseScene databaseScene = new DatabaseScene(primaryStage, authResult);
+                        databaseScene.show();
                     }
                 } catch (Exception e) {
                     showAlert(Alert.AlertType.ERROR, "Database Error", "Can't connect to database!");
@@ -157,11 +192,12 @@ public class SignScene {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
-    
+
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("/styles/sign.css").toExternalForm());
         alert.showAndWait();
     }
+
     private int authenticate(String username, String password) {
         return contactController.authenticateUser(username, password);
     }
