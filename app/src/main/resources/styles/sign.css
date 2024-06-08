@@ -89,12 +89,14 @@
     -fx-pref-width: 30px;
     -fx-border-color: white;
     -fx-border-width: 1px;
+    -fx-border-radius: 2px;
 
     /* Standard Property */
     background-color: transparent;
     padding: 10;
     border-color: white;
     border-width: 1px;
+    border-radius: 2px;
 }
 
 #showPass .text {
@@ -164,4 +166,26 @@
 .dialog-pane .button:hover {
     -fx-background-color: #4e4e76;
     background-color: #4e4e76;
+}
+
+#signButton:hover {
+    -fx-background-color: transparent;
+    -fx-border-color: #6767ee;
+
+    background-color: transparent;
+    border-color: #6767ee;
+}
+
+#loginButton:hover {
+    -fx-text-fill: #4545ac;
+}
+
+.field:hover {
+    -fx-border-color: #6767ee; /* Ubah warna border saat field dihover */
+    -fx-transition: border-color 0.3s; /* Animasi transisi */
+}
+
+#showPass .box:hover {
+    -fx-border-color: #6767ee; /* Ubah warna border saat field dihover */
+    -fx-transition: border-color 0.3s; /* Animasi transisi */
 }

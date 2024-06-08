@@ -1,5 +1,7 @@
 package passfort;
 
+import org.sqlite.SQLiteException;
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,16 +17,14 @@ public class LoginScene {
     public LoginScene(Stage primaryStage, int authResult) {
         this.primaryStage = primaryStage;
         this.contactController = new ContactController();
-        this.contactController.createTable(); // Ensure the table is created
+        this.contactController.createTable();
         this.authResult = authResult;
     }
 
     public void show() {
-        // Create the form layout
         VBox loginLayout = new VBox();
         loginLayout.setId("form");
 
-        // Form title
         VBox titleContainer = new VBox();
 
         Label greeting = new Label("Glad to have you back!");
@@ -33,13 +33,12 @@ public class LoginScene {
         Label formTitle = new Label("PASSFORT");
         formTitle.setId("formTitle");
 
-        Label formSubtitle = new Label("a minimalist password manager");
+        Label formSubtitle = new Label("- a minimalist password manager -");
         formSubtitle.setId("formSubtitle");
         titleContainer.getChildren().addAll(greeting, formTitle, formSubtitle);
         titleContainer.setSpacing(3);
         titleContainer.setAlignment(Pos.CENTER);
 
-        // Create form fields
         VBox formContainer = new VBox();
 
         HBox usernameField = new HBox();
@@ -55,7 +54,6 @@ public class LoginScene {
         usernameField.setId("username");
         usernameField.setAlignment(Pos.CENTER);
 
-        // Password HBox
         HBox passwordField = new HBox();
         Label passwordLabel = new Label("Password\t-→");
         passwordLabel.getStyleClass().add("fieldLabel");
@@ -66,7 +64,6 @@ public class LoginScene {
         passwordTextField.setPrefWidth(350);
         passwordTextField.setPrefHeight(20);
 
-        // TextField to show password
         TextField textField = new TextField();
         textField.getStyleClass().add("field");
         textField.setPrefWidth(350);
@@ -74,20 +71,16 @@ public class LoginScene {
         textField.setManaged(false);
         textField.setVisible(false);
 
-        // CheckBox to show/hide password
-        CheckBox showPasswordCheckBox = new CheckBox("Show?");
+        CheckBox showPasswordCheckBox = new CheckBox("Show");
         showPasswordCheckBox.setId("showPass");
 
-        // Bind properties
         textField.managedProperty().bind(showPasswordCheckBox.selectedProperty());
         textField.visibleProperty().bind(showPasswordCheckBox.selectedProperty());
         passwordTextField.managedProperty().bind(showPasswordCheckBox.selectedProperty().not());
         passwordTextField.visibleProperty().bind(showPasswordCheckBox.selectedProperty().not());
 
-        // Synchronize text content
         textField.textProperty().bindBidirectional(passwordTextField.textProperty());
 
-        // Adding components to the passwordField HBox
         passwordField.getChildren().addAll(passwordLabel, passwordTextField, textField, showPasswordCheckBox);
         passwordField.setSpacing(5);
         passwordField.setAlignment(Pos.CENTER);
@@ -96,7 +89,6 @@ public class LoginScene {
         formContainer.setSpacing(30);
         formContainer.setAlignment(Pos.CENTER);
 
-        // Add button
         Button loginButton = new Button("SIGN IN");
         loginButton.setId("loginButton");
         
@@ -118,7 +110,11 @@ public class LoginScene {
                     } else {
                         showAlert(Alert.AlertType.INFORMATION, "Success", "User logged in successfully!");
                         DatabaseScene databaseScene = new DatabaseScene(primaryStage, authResult);
-                        databaseScene.show();
+                        try {
+                            databaseScene.show();
+                        } catch (SQLiteException e) {
+                            e.printStackTrace();
+                        }
                     }
         
                 } else if (authResult == -1) {
@@ -142,12 +138,10 @@ public class LoginScene {
         buttonContainer.setSpacing(20);
         buttonContainer.setAlignment(Pos.CENTER);
 
-        // Add fields to the form layout
         loginLayout.getChildren().addAll(titleContainer, formContainer, buttonContainer);
         loginLayout.setSpacing(50);
         loginLayout.setAlignment(Pos.CENTER);
 
-        // Create the scene and set it to the stage
         Scene scene = new Scene(loginLayout, 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/styles/login.css").toExternalForm());
         primaryStage.setResizable(false);

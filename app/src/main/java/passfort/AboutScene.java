@@ -45,7 +45,11 @@ public class AboutScene {
         Button newPassword = new Button("→ New Password");
         newPassword.setOnAction(v -> {
             CreateScene createScene = new CreateScene(primaryStage, userId);
-            createScene.show();
+            try {
+                createScene.show();
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            }
         });
 
         Button updatePassword = new Button("→ Update Password");
@@ -81,18 +85,17 @@ public class AboutScene {
         Button passwordDatabase = new Button("→ Password database");
         passwordDatabase.setOnAction(v -> {
             DatabaseScene databaseScene = new DatabaseScene(primaryStage, userId);
-            databaseScene.show();
+            try {
+                databaseScene.show();
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            }
         });
 
         Button userProfile = new Button("PROFILE");
         userProfile.setOnAction(v -> {
             UserScene userScene = new UserScene(primaryStage, userId);
-            try {
-                userScene.show();
-            } catch (SQLiteException e) {
-
-                e.printStackTrace();
-            }
+            userScene.show();
         });
 
         Button aboutUs = new Button("ABOUT US");

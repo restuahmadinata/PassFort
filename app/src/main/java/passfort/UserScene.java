@@ -1,8 +1,5 @@
 package passfort;
 
-import java.io.File;
-
-import org.sqlite.SQLiteException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,12 +10,16 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import passfort.com.example.controller.*;
+import javafx.util.Duration;
+import passfort.com.example.controller.ContactController;
+import org.sqlite.SQLiteException;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserScene {
     private Stage primaryStage;
     private int userId;
-    
 
     public UserScene(Stage primaryStage, int userId) {
         this.primaryStage = primaryStage;
@@ -30,25 +31,27 @@ public class UserScene {
         imageView.setClip(clip);
     }
 
-    public void show() throws SQLiteException {
+    public void show() {
         ContactController contactController = new ContactController();
         String fullName = contactController.getUserFullName(userId);
 
         BorderPane mainLayout = new BorderPane();
 
-        // Create the menu
         VBox menu = new VBox();
         menu.setSpacing(10);
         menu.setId("menu");
 
-        // Create menu items
         Label menuTitle = new Label("MENU");
         menuTitle.setId("menuTitle");
 
         Button newPassword = new Button("→ New Password");
         newPassword.setOnAction(v -> {
             CreateScene createScene = new CreateScene(primaryStage, userId);
-            createScene.show();
+            try {
+                createScene.show();
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            }
         });
 
         Button updatePassword = new Button("→ Update Password");
@@ -84,7 +87,11 @@ public class UserScene {
         Button passwordDatabase = new Button("→ Password database");
         passwordDatabase.setOnAction(v -> {
             DatabaseScene databaseScene = new DatabaseScene(primaryStage, userId);
-            databaseScene.show();
+            try {
+                databaseScene.show();
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            }
         });
 
         Button aboutUs = new Button("ABOUT US");
@@ -100,12 +107,7 @@ public class UserScene {
         Button userProfile = new Button("PROFILE");
         userProfile.setOnAction(v -> {
             UserScene userScene = new UserScene(primaryStage, userId);
-            try {
-                userScene.show();
-            } catch (SQLiteException e) {
-
-                e.printStackTrace();
-            }
+            userScene.show();
         });
 
         Button exit = new Button("EXIT");
@@ -123,16 +125,12 @@ public class UserScene {
         aboutUs.getStyleClass().add("menuButton");
         exit.getStyleClass().add("menuButton");
 
-        // Add items to the menu
         menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, userProfile, aboutUs, exit);
 
-
-        // InfoLayout
         VBox infoLayout = new VBox();
         infoLayout.setId("infoLayout");
         infoLayout.setPadding(new Insets(10));
 
-        // Form title
         VBox titleContainer = new VBox();
 
         Label infoTitle = new Label("USER PROFILE");
@@ -144,7 +142,6 @@ public class UserScene {
         titleContainer.getChildren().addAll(infoTitle, infoSubtitle);
         titleContainer.setSpacing(3);
 
-        // Add fields to the form layout
         Image defaultImage = new Image(getClass().getResourceAsStream("/images/default.jpg"));
         ImageView imageView = new ImageView(defaultImage);
         imageView.setFitWidth(150);
@@ -159,67 +156,85 @@ public class UserScene {
         Button changePhotoButton = new Button("Change Photo");
         changePhotoButton.setId("changePhotoButton");
         changePhotoButton.setOnAction(e -> {
-            // Membuat file chooser
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Photo");
-            // Menambahkan filter untuk jenis file gambar
             fileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
             );
 
-            // Menampilkan dialog pemilih file
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
-
-            // Jika pengguna memilih file
             if (selectedFile != null) {
-                // Membuat gambar dari file yang dipilih
                 Image newImage = new Image(selectedFile.toURI().toString());
-                // Mengatur gambar baru ke ImageView
                 imageView.setImage(newImage);
             }
         });
 
         Button changePasswordButton = new Button("Change Password");
         changePasswordButton.setId("changePasswordButton");
+
         changePasswordButton.setOnAction(e -> {
-            // Menampilkan prompt untuk memasukkan password lama
             PasswordField oldPasswordField = new PasswordField();
             oldPasswordField.setPromptText("Old Password");
+
+            PasswordField newPasswordField = new PasswordField();
+            newPasswordField.setPromptText("New Password");
+
+            PasswordField confirmPasswordField = new PasswordField();
+            confirmPasswordField.setPromptText("Confirm New Password");
+
+            Tooltip newPasswordTooltip = new Tooltip(getPasswordRequirements());
+            newPasswordField.setTooltip(newPasswordTooltip);
+            confirmPasswordField.setTooltip(newPasswordTooltip);
+            newPasswordTooltip.setShowDelay(Duration.seconds(0.3));
+            newPasswordTooltip.setShowDuration(Duration.seconds(60));
+
+            newPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
+                updatePasswordTooltip(newPasswordTooltip, newValue);
+            });
+
+            confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
+                updatePasswordTooltip(newPasswordTooltip, newValue);
+            });
+
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setHeaderText("Enter Your Old Password");
             dialog.getDialogPane().setContent(oldPasswordField);
             dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
             dialog.setTitle("Change Password");
+            dialog.getDialogPane().getStylesheets().add(getClass().getResource("/styles/database.css").toExternalForm());
+
             dialog.showAndWait().ifPresent(result -> {
                 if (result == ButtonType.OK) {
                     String oldPassword = oldPasswordField.getText();
-                    // Verifikasi password lama
                     boolean isOldPasswordCorrect = contactController.verifyPassword(userId, oldPassword);
                     if (isOldPasswordCorrect) {
-                        // Jika password lama benar, menampilkan prompt untuk memasukkan password baru
-                        PasswordField newPasswordField = new PasswordField();
-                        newPasswordField.setPromptText("New Password");
                         Dialog<ButtonType> newPasswordDialog = new Dialog<>();
                         newPasswordDialog.setHeaderText("Enter Your New Password");
-                        newPasswordDialog.getDialogPane().setContent(newPasswordField);
+                        newPasswordDialog.getDialogPane().getStylesheets().add(getClass().getResource("/styles/database.css").toExternalForm());
+                        GridPane gridPane = new GridPane();
+                        gridPane.setHgap(10);
+                        gridPane.setVgap(10);
+                        gridPane.addRow(0, new Label("New Password: "), newPasswordField);
+                        gridPane.addRow(1, new Label("Confirm Pass: "), confirmPasswordField);
+                        newPasswordDialog.getDialogPane().setContent(gridPane);
                         newPasswordDialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
                         newPasswordDialog.setTitle("Change Password");
                         newPasswordDialog.showAndWait().ifPresent(newResult -> {
                             if (newResult == ButtonType.OK) {
-                                String newPwd = newPasswordField.getText(); // Menggunakan nama variabel baru
-                                contactController.updateUserPassword(userId, newPwd);
-                                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                                successAlert.setHeaderText(null);
-                                successAlert.setContentText("Password successfully changed!");
-                                successAlert.showAndWait();
+                                String newPasswordText = newPasswordField.getText();
+                                String confirmPassword = confirmPasswordField.getText();
+                                if (!isValidPassword(newPasswordText)) {
+                                    showAlert(Alert.AlertType.ERROR, "Error", "Password does not meet the requirements!");
+                                } else if (!newPasswordText.equals(confirmPassword)) {
+                                    showAlert(Alert.AlertType.ERROR, "Error", "Passwords do not match!");
+                                } else {
+                                    contactController.updateUserPassword(userId, newPasswordText);
+                                    showAlert(Alert.AlertType.INFORMATION, "Success", "Password successfully changed!");
+                                }
                             }
                         });
                     } else {
-                        // Jika password lama salah, tampilkan pesan kesalahan
-                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                        errorAlert.setHeaderText(null);
-                        errorAlert.setContentText("Incorrect old password. Please try again.");
-                        errorAlert.showAndWait();
+                        showAlert(Alert.AlertType.ERROR, "Error", "Incorrect old password. Please try again.");
                     }
                 }
             });
@@ -233,21 +248,70 @@ public class UserScene {
         infoLayout.getChildren().addAll(titleContainer, userContainer);
         infoLayout.setSpacing(20);
 
-        // Create a scroll pane for info layout
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(infoLayout);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
 
-        // Add the menu and scroll pane to the main layout
         mainLayout.setLeft(menu);
         mainLayout.setCenter(scrollPane);
 
-        // Create the scene and set it to the stage
         Scene scene = new Scene(mainLayout, 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/styles/user.css").toExternalForm());
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("/styles/update.css").toExternalForm());
+        alert.showAndWait();
+    }
+
+    private String getPasswordRequirements() {
+        return "-> Password must be at least 8 characters long\n" +
+               "-> Contain at least one uppercase letter\n" +
+               "-> One lowercase letter\n" +
+               "-> One digit\n" +
+               "-> One special character (@, $, !, %, *, ?, &)";
+    }
+
+    private void updatePasswordTooltip(Tooltip tooltip, String password) {
+        List<String> errors = new ArrayList<>();
+        if (password.length() < 8) {
+            errors.add("-> Password must be at least 8 characters long");
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            errors.add("-> Must contain at least one uppercase letter");
+        }
+        if (!password.matches(".*[a-z].*")) {
+            errors.add("-> Must contain at least one lowercase letter");
+        }
+        if (!password.matches(".*\\d.*")) {
+            errors.add("-> Must contain at least one digit");
+        }
+        if (!password.matches(".*[@$!%*?&].*")) {
+            errors.add("-> Must contain at least one special character (@, $, !, %, *, ?, &)");
+        }
+        if (errors.isEmpty()) {
+            tooltip.setText("Password is valid");
+        } else {
+            tooltip.setText(String.join("\n", errors));
+        }
+    }
+
+    private boolean isValidPassword(String password) {
+        return password.length() >= 8 &&
+                password.matches(".*[A-Z].*") &&
+                password.matches(".*[a-z].*") &&
+                password.matches(".*\\d.*") &&
+                password.matches(".*[@$!%*?&].*");
+    }
 }
+

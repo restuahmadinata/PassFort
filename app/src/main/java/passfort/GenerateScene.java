@@ -35,7 +35,11 @@ public class GenerateScene {
         Button newPassword = new Button("→ New Password");
         newPassword.setOnAction(v -> {
             CreateScene createScene = new CreateScene(primaryStage, userId);
-            createScene.show();
+            try {
+                createScene.show();
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            }
         });
 
         Button updatePassword = new Button("→ Update Password");
@@ -71,18 +75,17 @@ public class GenerateScene {
         Button passwordDatabase = new Button("→ Password database");
         passwordDatabase.setOnAction(v -> {
             DatabaseScene databaseScene = new DatabaseScene(primaryStage, userId);
-            databaseScene.show();
+            try {
+                databaseScene.show();
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            }
         });
 
         Button userProfile = new Button("PROFILE");
         userProfile.setOnAction(v -> {
             UserScene userScene = new UserScene(primaryStage, userId);
-            try {
-                userScene.show();
-            } catch (SQLiteException e) {
-
-                e.printStackTrace();
-            }
+            userScene.show();
         });
 
         Button aboutUs = new Button("ABOUT US");
@@ -110,15 +113,12 @@ public class GenerateScene {
         aboutUs.getStyleClass().add("menuButton");
         exit.getStyleClass().add("menuButton");
 
-        // Add items to the menu
         menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, userProfile, aboutUs, exit);
 
-        // Create the form layout
         VBox formLayout = new VBox();
         formLayout.setId("form");
         formLayout.setPadding(new Insets(10));
 
-        // Form title
         VBox titleContainer = new VBox();
         Label formTitle = new Label("Generate");
         formTitle.setId("formTitle");
@@ -129,7 +129,6 @@ public class GenerateScene {
         titleContainer.getChildren().addAll(formTitle, formSubtitle);
         titleContainer.setSpacing(3);
 
-        // Add input fields to the form layout
         formLayout.setSpacing(20);
 
         VBox charTitleContainer = new VBox();
@@ -149,7 +148,6 @@ public class GenerateScene {
         charContainer.getChildren().addAll(charTitleContainer, charField);
         charContainer.setSpacing(20);
 
-        // OPTIONS
         VBox optionsContainer = new VBox();
         Label optionsLabel = new Label("Consist of?");
         optionsLabel.getStyleClass().add("optionLabel");
@@ -204,13 +202,11 @@ public class GenerateScene {
         copyButton.setOnAction(v -> {
             String text = outputField.getText();
             if (text != null && !text.isEmpty()) {
-                // Copy text to clipboard
                 final Clipboard clipboard = Clipboard.getSystemClipboard();
                 final ClipboardContent content = new ClipboardContent();
                 content.putString(text);
                 clipboard.setContent(content);
 
-                // Change button text to "done"
                 copyButton.setText("🗹");
             }
         });
@@ -221,11 +217,9 @@ public class GenerateScene {
         formLayout.getChildren().addAll(titleContainer, charContainer, optionsContainer, generateBox);
         formLayout.setSpacing(50);
 
-        // Add the menu and form layout to the main layout
         mainLayout.setLeft(menu);
         mainLayout.setCenter(formLayout);
 
-        // Create the scene and set it to the stage
         Scene scene = new Scene(mainLayout, 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/styles/generate.css").toExternalForm());
         primaryStage.setResizable(false);

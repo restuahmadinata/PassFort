@@ -5,7 +5,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import passfort.com.example.controller.ContactController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SignScene {
     private Stage primaryStage;
@@ -19,12 +23,9 @@ public class SignScene {
     }
 
     public void show() {
-
-        // Create the form layout
         VBox signUpLayout = new VBox();
         signUpLayout.setId("form");
 
-        // Form title
         VBox titleContainer = new VBox();
 
         Label greeting = new Label("Welcome to");
@@ -33,16 +34,14 @@ public class SignScene {
         Label formTitle = new Label("PASSFORT");
         formTitle.setId("formTitle");
 
-        Label formSubtitle = new Label("a minimalist password manager");
+        Label formSubtitle = new Label("- a minimalist password manager- ");
         formSubtitle.setId("formSubtitle");
         titleContainer.getChildren().addAll(greeting, formTitle, formSubtitle);
         titleContainer.setSpacing(3);
         titleContainer.setAlignment(Pos.CENTER);
 
-        // Create form fields
         VBox formContainer = new VBox();
 
-        // Full Name Field
         HBox fullNameField = new HBox();
         Label fullNameLabel = new Label("Your Name\t-→");
         fullNameLabel.getStyleClass().add("fieldLabel");
@@ -56,7 +55,6 @@ public class SignScene {
         fullNameField.setId("fullName");
         fullNameField.setAlignment(Pos.CENTER);
 
-        // Username Field
         HBox usernameField = new HBox();
         Label usernameLabel = new Label("Username\t-→");
         usernameLabel.getStyleClass().add("fieldLabel");
@@ -70,7 +68,6 @@ public class SignScene {
         usernameField.setId("username");
         usernameField.setAlignment(Pos.CENTER);
 
-        // Password Field
         HBox passwordField = new HBox();
         Label passwordLabel = new Label("Password\t-→");
         passwordLabel.getStyleClass().add("fieldLabel");
@@ -81,7 +78,6 @@ public class SignScene {
         passwordTextField.setPrefWidth(350);
         passwordTextField.setPrefHeight(20);
 
-        // TextField to show password
         TextField textField = new TextField();
         textField.getStyleClass().add("field");
         textField.setPrefWidth(350);
@@ -89,25 +85,20 @@ public class SignScene {
         textField.setManaged(false);
         textField.setVisible(false);
 
-        // CheckBox to show/hide password
-        CheckBox showPasswordCheckBox = new CheckBox("Show?");
+        CheckBox showPasswordCheckBox = new CheckBox("Show");
         showPasswordCheckBox.setId("showPass");
 
-        // Bind properties
         textField.managedProperty().bind(showPasswordCheckBox.selectedProperty());
         textField.visibleProperty().bind(showPasswordCheckBox.selectedProperty());
         passwordTextField.managedProperty().bind(showPasswordCheckBox.selectedProperty().not());
         passwordTextField.visibleProperty().bind(showPasswordCheckBox.selectedProperty().not());
 
-        // Synchronize text content
         textField.textProperty().bindBidirectional(passwordTextField.textProperty());
 
-        // Adding components to the passwordField HBox
         passwordField.getChildren().addAll(passwordLabel, passwordTextField, textField, showPasswordCheckBox);
         passwordField.setSpacing(5);
         passwordField.setAlignment(Pos.CENTER);
 
-        // Confirm Password Field
         HBox confirmPasswordField = new HBox();
         Label confirmPasswordLabel = new Label("Confirm Pass\t-→");
         confirmPasswordLabel.getStyleClass().add("fieldLabel");
@@ -126,7 +117,6 @@ public class SignScene {
         formContainer.setSpacing(30);
         formContainer.setAlignment(Pos.CENTER);
 
-        // Add button
         Button signUpButton = new Button("SIGN UP");
         signUpButton.setId("signButton");
 
@@ -137,14 +127,11 @@ public class SignScene {
             String confirmPassword = confirmPasswordTextField.getText();
 
             if (fullName.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                // Display an error message if any field is empty
                 showAlert(Alert.AlertType.ERROR, "Input Error", "Please fill in all fields!");
             } else if (!password.equals(confirmPassword)) {
-                // Display an error message if the passwords do not match
                 showAlert(Alert.AlertType.ERROR, "Input Error", "Passwords do not match!");
             } else {
                 try {
-                    // Create an instance of ContactController and check if the username already exists
                     ContactController contactController = new ContactController();
                     if (contactController.isUsernameTaken(username)) {
                         showAlert(Alert.AlertType.ERROR, "Registration Error", "Username is already used");
@@ -161,7 +148,7 @@ public class SignScene {
             }
         });
 
-        Button loginButton = new Button("Already have an account? Log In!");
+        Button loginButton = new Button("Already have an account? Sign In!");
         loginButton.setId("loginButton");
 
         loginButton.setOnAction(v -> {
@@ -169,17 +156,36 @@ public class SignScene {
             loginScene.show();
         });
 
+        Tooltip usernameTooltip = new Tooltip(getUsernameRequirements());
+        usernameTextField.setTooltip(usernameTooltip);
+        usernameTooltip.setShowDelay(Duration.seconds(0.3));
+        usernameTooltip.setShowDuration(Duration.seconds(60));
+
+        usernameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            updateUsernameTooltip(usernameTooltip, newValue);
+        });
+
+        Tooltip passwordTooltip = new Tooltip(getPasswordRequirements());
+        passwordTextField.setTooltip(passwordTooltip);
+        textField.setTooltip(passwordTooltip);
+        passwordTooltip.setShowDelay(Duration.seconds(0.3));
+        passwordTooltip.setShowDuration(Duration.seconds(60));
+
+        passwordTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            updatePasswordTooltip(passwordTooltip, newValue);
+        });
+
         VBox buttonContainer = new VBox();
         buttonContainer.getChildren().addAll(signUpButton, loginButton);
         buttonContainer.setSpacing(20);
         buttonContainer.setAlignment(Pos.CENTER);
 
-        // Add fields to the form layout
         signUpLayout.getChildren().addAll(titleContainer, formContainer, buttonContainer);
         signUpLayout.setSpacing(50);
         signUpLayout.setAlignment(Pos.CENTER);
 
-        // Create the scene and set it to the stage
+        
+
         Scene scene = new Scene(signUpLayout, 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/styles/sign.css").toExternalForm());
         primaryStage.setResizable(false);
@@ -198,7 +204,69 @@ public class SignScene {
         alert.showAndWait();
     }
 
+    
+
     private int authenticate(String username, String password) {
         return contactController.authenticateUser(username, password);
+    }
+
+    private String getUsernameRequirements() {
+        return "-> Username must be 5-20 characters long\n" +
+               "-> Can contain letters, numbers, and underscores\n" +
+               "-> Cannot start or end with an underscore\n" +
+               "-> Cannot contain consecutive underscores";
+    }
+
+    private String getPasswordRequirements() {
+        return "-> Password must be at least 8 characters long\n" +
+               "-> Contain at least one uppercase letter\n" +
+               "-> One lowercase letter\n" +
+               "-> One digit\n" +
+               "-> One special character (@, $, !, %, *, ?, &)";
+    }
+
+    private void updateUsernameTooltip(Tooltip tooltip, String username) {
+        List<String> errors = new ArrayList<>();
+        if (username.length() < 5 || username.length() > 20) {
+            errors.add("-> Username must be 5-20 characters long");
+        }
+        if (!username.matches("^[a-zA-Z0-9_]*$")) {
+            errors.add("-> Can contain letters, numbers, and underscores only");
+        }
+        if (username.startsWith("_") || username.endsWith("_")) {
+            errors.add("-> Cannot start or end with an underscore");
+        }
+        if (username.contains("__")) {
+            errors.add("-> Cannot contain consecutive underscores");
+        }
+        if (errors.isEmpty()) {
+            tooltip.setText("Username is valid");
+        } else {
+            tooltip.setText(String.join("\n", errors));
+        }
+    }
+
+    private void updatePasswordTooltip(Tooltip tooltip, String password) {
+        List<String> errors = new ArrayList<>();
+        if (password.length() < 8) {
+            errors.add("-> Password must be at least 8 characters long");
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            errors.add("-> Must contain at least one uppercase letter");
+        }
+        if (!password.matches(".*[a-z].*")) {
+            errors.add("-> Must contain at least one lowercase letter");
+        }
+        if (!password.matches(".*\\d.*")) {
+            errors.add("-> Must contain at least one digit");
+        }
+        if (!password.matches(".*[@$!%*?&].*")) {
+            errors.add("-> Must contain at least one special character (@, $, !, %, *, ?, &)");
+        }
+        if (errors.isEmpty()) {
+            tooltip.setText("Password is valid");
+        } else {
+            tooltip.setText(String.join("\n", errors));
+        }
     }
 }

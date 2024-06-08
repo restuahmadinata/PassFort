@@ -237,25 +237,28 @@
     background-color: #3A3E5D;
 }
 
+
 .dialog-pane {
     -fx-background-color: #1F1E2C;
     background-color: #1F1E2C;
+    -fx-text-fill: #ffffff;
 }
 
-/* Background color for the header panel */
+.dialog-pane .label {
+    -fx-text-fill: #ffffff;
+}
+
 .dialog-pane .header-panel {
     -fx-background-color: #1F1E2C;
     background-color: #1F1E2C;
 }
 
-/* Text color for the content */
 .dialog-pane .content {
     -fx-text-fill: #ffffff;
     -fx-font-size: 13px;
     font-size: 13px;
 }
 
-/* Button styles */
 .dialog-pane .button {
     -fx-font-size: 14px;
     -fx-text-fill: #ffffff;
@@ -267,4 +270,11 @@
 .dialog-pane .button:hover {
     -fx-background-color: #4e4e76;
     background-color: #4e4e76;
+}
+
+.dialog-pane .password-field {
+    -fx-background-color: #2D2D45;
+    -fx-text-fill: #ecf0f1;
+
+    background-color: #2D2D45;
 }

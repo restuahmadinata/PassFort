@@ -19,22 +19,23 @@ public class DeleteScene {
     }
 
     public void show() throws SQLiteException {
-        // Create the main layout
         BorderPane mainLayout = new BorderPane();
 
-        // Create the menu
         VBox menu = new VBox();
         menu.setSpacing(10);
         menu.setId("menu");
 
-        // Create menu items
         Label menuTitle = new Label("MENU");
         menuTitle.setId("menuTitle");
 
         Button newPassword = new Button("→ New Password");
         newPassword.setOnAction(v -> {
             CreateScene createScene = new CreateScene(primaryStage, userId);
-            createScene.show();
+            try {
+                createScene.show();
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            }
         });
 
         Button updatePassword = new Button("→ Update Password");
@@ -70,18 +71,17 @@ public class DeleteScene {
         Button passwordDatabase = new Button("→ Password database");
         passwordDatabase.setOnAction(v -> {
             DatabaseScene databaseScene = new DatabaseScene(primaryStage, userId);
-            databaseScene.show();
+            try {
+                databaseScene.show();
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            }
         });
 
         Button userProfile = new Button("PROFILE");
         userProfile.setOnAction(v -> {
             UserScene userScene = new UserScene(primaryStage, userId);
-            try {
-                userScene.show();
-            } catch (SQLiteException e) {
-
-                e.printStackTrace();
-            }
+            userScene.show();
         });
 
         Button aboutUs = new Button("ABOUT US");
@@ -109,14 +109,11 @@ public class DeleteScene {
         aboutUs.getStyleClass().add("menuButton");
         exit.getStyleClass().add("menuButton");
 
-        // Add items to the menu
         menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, userProfile, aboutUs, exit);
 
-        // Create the form layout
         VBox formLayout = new VBox();
         formLayout.setId("form");
 
-        // Form title
         VBox titleContainer = new VBox();
         Label formTitle = new Label("DELETE");
         formTitle.setId("formTitle");
@@ -127,7 +124,6 @@ public class DeleteScene {
         titleContainer.getChildren().addAll(formTitle, formSubtitle);
         titleContainer.setSpacing(3);
 
-        // Create form fields
         VBox formContainer = new VBox();
 
         HBox appField = new HBox();
@@ -161,7 +157,6 @@ public class DeleteScene {
         formContainer.getChildren().addAll(appField, usernameField);
         formContainer.setSpacing(50);
 
-        // Add button
         Label line = new Label("                                                               ");
         Button deleteButton = new Button("Delete");
         deleteButton.setId("deleteButton");
@@ -171,25 +166,24 @@ public class DeleteScene {
             String username = usernameTextField.getText();
         
             if (app != null && !app.isEmpty() && username != null && !username.isEmpty()) {
-                // Create the custom dialog.
                 Dialog<String> dialog = new Dialog<>();
                 dialog.setTitle("Password Verification");
                 dialog.setHeaderText("Please enter your password to proceed with deletion");
-        
-                // Set the button types.
+ 
                 ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
                 dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
         
-                // Create the password field.
                 PasswordField passwordFieldUser = new PasswordField();
                 passwordFieldUser.setPromptText("Password");
+
+                dialog.getDialogPane().getStylesheets().add(getClass().getResource("/styles/delete.css").toExternalForm());
         
                 VBox content = new VBox();
                 content.setSpacing(10);
-                content.getChildren().addAll(new Label("Password:"), passwordFieldUser);
+                content.getChildren().addAll(passwordFieldUser);
                 dialog.getDialogPane().setContent(content);
+                
         
-                // Convert the result to a password when the OK button is clicked.
                 dialog.setResultConverter(dialogButton -> {
                     if (dialogButton == okButtonType) {
                         return passwordFieldUser.getText();
@@ -197,7 +191,6 @@ public class DeleteScene {
                     return null;
                 });
         
-                // Show the dialog and wait for the result.
                 Optional<String> result = dialog.showAndWait();
                 result.ifPresent(password -> {
                     ContactController contactController = new ContactController();
@@ -228,15 +221,12 @@ public class DeleteScene {
 
         HBox buttonContainer = new HBox(line, deleteButton);
 
-        // Add fields to the form layout
         formLayout.getChildren().addAll(titleContainer, formContainer, buttonContainer);
         formLayout.setSpacing(50);
 
-        // Add the menu and form layout to the main layout
         mainLayout.setLeft(menu);
         mainLayout.setCenter(formLayout);
 
-        // Create the scene and set it to the stage
         Scene scene = new Scene(mainLayout, 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/styles/delete.css").toExternalForm());
         primaryStage.setTitle("PassFort");

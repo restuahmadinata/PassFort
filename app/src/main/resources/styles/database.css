@@ -123,7 +123,6 @@
     background-color: #3A3E5D;
 }
 
-/* TableView dark mode styles */
 .table-view {
     -fx-background-color: #1F1E2C;
     -fx-table-cell-border-color: transparent;
@@ -141,20 +140,21 @@
 .table-view .filler {
     -fx-background-color: #1F1E2C;
     -fx-border-color: white;
-    -fx-text-fill: #e0e0e0; /* Header text color */
+    -fx-text-fill: #e0e0e0;
 
     background-color: #1F1E2C;
     border-color: white;
 }
 
-/* Change header text color */
 .table-view .column-header .label {
-    -fx-text-fill: #ffffff; /* Header row text color */
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px
 }
 
 .table-view .table-row-cell {
     -fx-background-color: #1F1E2C;
     -fx-text-fill: #e0e0e0;
+    -fx-font-size: 14px; /* Perbesar ukuran teks */
 
     background-color: #1F1E2C;
 }
@@ -163,13 +163,12 @@
     -fx-border-color: white;
 
     border-color: white;
-
-    
 }
 
 .table-view .table-cell {
     -fx-background-color: #1F1E2C;
     -fx-text-fill: #e0e0e0;
+    -fx-font-size: 14px;
 
     background-color: #1F1E2C;
 }
@@ -185,6 +184,7 @@
 
     background-color: #1F1E2C;
 }
+
 
 
 .scroll-bar:vertical {
@@ -242,4 +242,46 @@
 .scroll-bar:horizontal .decrement-button {
     -fx-background-color: #444; /* Dark buttons */
     background-color: #444;
+}
+
+
+.dialog-pane {
+    -fx-background-color: #1F1E2C;
+    background-color: #1F1E2C;
+    -fx-text-fill: #ffffff;
+}
+
+.dialog-pane .label {
+    -fx-text-fill: #ffffff;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #1F1E2C;
+    background-color: #1F1E2C;
+}
+
+.dialog-pane .content {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+    font-size: 13px;
+}
+
+.dialog-pane .button {
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #2D2D45;
+    background-color: #2D2D45;
+    font-size: 14px;
+}
+
+.dialog-pane .button:hover {
+    -fx-background-color: #4e4e76;
+    background-color: #4e4e76;
+}
+
+.dialog-pane .password-field {
+    -fx-background-color: #2D2D45;
+    -fx-text-fill: #ecf0f1;
+
+    background-color: #2D2D45;
 }

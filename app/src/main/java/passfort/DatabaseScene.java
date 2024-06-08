@@ -24,7 +24,7 @@ public class DatabaseScene {
     }
 
     @SuppressWarnings("unchecked")
-    public void show() {
+    public void show() throws SQLiteException {
         BorderPane mainLayout = new BorderPane();
 
         VBox menu = new VBox();
@@ -37,7 +37,11 @@ public class DatabaseScene {
         Button newPassword = new Button("→ New Password");
         newPassword.setOnAction(v -> {
             CreateScene createScene = new CreateScene(primaryStage, userId);
-            createScene.show();
+            try {
+                createScene.show();
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            }
         });
 
         Button updatePassword = new Button("→ Update Password");
@@ -73,18 +77,17 @@ public class DatabaseScene {
         Button passwordDatabase = new Button("→ Password database");
         passwordDatabase.setOnAction(v -> {
             DatabaseScene databaseScene = new DatabaseScene(primaryStage, userId);
-            databaseScene.show();
+            try {
+                databaseScene.show();
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            }
         });
 
         Button userProfile = new Button("PROFILE");
         userProfile.setOnAction(v -> {
             UserScene userScene = new UserScene(primaryStage, userId);
-            try {
-                userScene.show();
-            } catch (SQLiteException e) {
-
-                e.printStackTrace();
-            }
+            userScene.show();
         });
 
         Button aboutUs = new Button("ABOUT US");
@@ -145,9 +148,8 @@ public class DatabaseScene {
         TableColumn<UserAppData, String> passwordCol = new TableColumn<>("Password");
         passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
         passwordCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.4));
-        passwordCol.setVisible(false); // Initially hide the password column
+        passwordCol.setVisible(false);
 
-        
         tableView.getColumns().addAll(appCol, usernameCol, passwordCol);
 
         Button togglePasswords = new Button("Show Passwords");
@@ -158,7 +160,6 @@ public class DatabaseScene {
                 passwordCol.setVisible(false);
                 togglePasswords.setText("Show Passwords");
             } else {
-                // Show a dialog to ask for the user's password
                 PasswordField passwordFieldUser = new PasswordField();
                 passwordFieldUser.setPromptText("Enter your password");
                 Dialog<ButtonType> dialog = new Dialog<>();
@@ -166,6 +167,7 @@ public class DatabaseScene {
                 dialog.setHeaderText("Please enter your password to show all saved passwords");
                 dialog.getDialogPane().setContent(passwordFieldUser);
                 dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+                dialog.getDialogPane().getStylesheets().add(getClass().getResource("/styles/database.css").toExternalForm());
         
                 Optional<ButtonType> result = dialog.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {

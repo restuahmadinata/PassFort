@@ -17,11 +17,9 @@ public class AdminScene {
 
     public void show() {
 
-        // Create the form layout
         VBox loginLayout = new VBox();
         loginLayout.setId("form");
 
-        // Form title
         VBox titleContainer = new VBox();
 
         Label greeting = new Label("WELCOME TO");
@@ -36,7 +34,6 @@ public class AdminScene {
         titleContainer.setSpacing(3);
         titleContainer.setAlignment(Pos.CENTER);
 
-        // Add button
         Button delete = new Button("DELETE\nACCOUNT");
         delete.getStyleClass().add("adminButton");
 
@@ -57,13 +54,10 @@ public class AdminScene {
             loginScene.show();
         });
 
-        // Add fields to the form layout
         loginLayout.getChildren().addAll(titleContainer, buttonContainer, exit);
         loginLayout.setSpacing(50);
         loginLayout.setAlignment(Pos.CENTER);
 
-
-        // Create the scene and set it to the stage
         Scene scene = new Scene(loginLayout, 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/styles/admin.css").toExternalForm());
         primaryStage.setResizable(false);

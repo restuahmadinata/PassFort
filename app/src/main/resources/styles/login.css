@@ -72,6 +72,11 @@
     border-width: 0px 0px 1px 0px;
 }
 
+.field:hover {
+    -fx-border-color: #6767ee;
+}
+
+
 #showPass {
     -fx-background-color: transparent;
     -fx-padding: 10;
@@ -89,12 +94,14 @@
     -fx-pref-width: 30px;
     -fx-border-color: white;
     -fx-border-width: 1px;
+    -fx-border-radius: 2px;
 
     /* Standard Property */
     background-color: transparent;
     padding: 10;
     border-color: white;
     border-width: 1px;
+    border-radius: 2px;
 }
 
 #showPass .text {
@@ -132,6 +139,18 @@
     -fx-font-size: 16px;
     background-color: transparent;
     font-size: 16px;
+}
+
+#loginButton:hover {
+    -fx-background-color: transparent;
+    -fx-border-color: #6767ee;
+
+    background-color: transparent;
+    border-color: #6767ee;
+}
+
+#signButton:hover {
+    -fx-text-fill: #4545ac;
 }
 
 #admin {

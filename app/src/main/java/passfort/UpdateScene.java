@@ -19,22 +19,23 @@ public class UpdateScene {
     }
 
     public void show() throws SQLiteException {
-        // Create the main layout
         BorderPane mainLayout = new BorderPane();
 
-        // Create the menu
         VBox menu = new VBox();
         menu.setSpacing(10);
         menu.setId("menu");
 
-        // Create menu items
         Label menuTitle = new Label("MENU");
         menuTitle.setId("menuTitle");
 
         Button newPassword = new Button("→ New Password");
         newPassword.setOnAction(v -> {
             CreateScene createScene = new CreateScene(primaryStage, userId);
-            createScene.show();
+            try {
+                createScene.show();
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            }
         });
         
 
@@ -71,18 +72,17 @@ public class UpdateScene {
         Button passwordDatabase = new Button("→ Password database");
         passwordDatabase.setOnAction(v -> {
             DatabaseScene databaseScene = new DatabaseScene(primaryStage, userId);
-            databaseScene.show();
+            try {
+                databaseScene.show();
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            }
         });
 
         Button userProfile = new Button("PROFILE");
         userProfile.setOnAction(v -> {
             UserScene userScene = new UserScene(primaryStage, userId);
-            try {
-                userScene.show();
-            } catch (SQLiteException e) {
-
-                e.printStackTrace();
-            }
+            userScene.show();
         });
 
         Button aboutUs = new Button("ABOUT US");
@@ -110,14 +110,11 @@ public class UpdateScene {
         aboutUs.getStyleClass().add("menuButton");
         exit.getStyleClass().add("menuButton");
 
-        // Add items to the menu
         menu.getChildren().addAll(menuTitle, newPassword, updatePassword, deletePassword, generatePassword, passwordDatabase, userProfile, aboutUs, exit);
 
-        // Create the form layout
         VBox formLayout = new VBox();
         formLayout.setId("form");
 
-        // Form title
         VBox titleContainer = new VBox();
         Label formTitle = new Label("UPDATE");
         formTitle.setId("formTitle");
@@ -128,7 +125,6 @@ public class UpdateScene {
         titleContainer.getChildren().addAll(formTitle, formSubtitle);
         titleContainer.setSpacing(3);
 
-        // Create form fields
         VBox formContainer = new VBox();
 
         HBox appField = new HBox();
@@ -170,7 +166,6 @@ public class UpdateScene {
         passwordTextField.setPrefWidth(350);
         passwordTextField.setPrefHeight(30);
         
-        // TextField to show password
         TextField textField = new TextField();
         textField.getStyleClass().add("field");
         textField.setPrefWidth(350);
@@ -178,27 +173,22 @@ public class UpdateScene {
         textField.setManaged(false);
         textField.setVisible(false);
         
-        // CheckBox to show/hide password
         CheckBox showPasswordCheckBox = new CheckBox("Show?");
         showPasswordCheckBox.setId("showPass");
 
-        // Bind properties
         textField.managedProperty().bind(showPasswordCheckBox.selectedProperty());
         textField.visibleProperty().bind(showPasswordCheckBox.selectedProperty());
         passwordTextField.managedProperty().bind(showPasswordCheckBox.selectedProperty().not());
         passwordTextField.visibleProperty().bind(showPasswordCheckBox.selectedProperty().not());
 
-        // Synchronize text content
         textField.textProperty().bindBidirectional(passwordTextField.textProperty());
 
-        // Adding components to the passwordField HBox
         passwordField.getChildren().addAll(passwordLabel, passwordTextField, textField, showPasswordCheckBox);
         passwordField.setSpacing(20);
 
         formContainer.getChildren().addAll(appField, usernameField, passwordField);
         formContainer.setSpacing(50);
 
-        // Add button
         Label line = new Label("                                                               ");
         Button updateButton = new Button("Update");
         updateButton.setId("updateButton");
@@ -221,8 +211,9 @@ public class UpdateScene {
         
                 VBox content = new VBox();
                 content.setSpacing(10);
-                content.getChildren().addAll(new Label("Password:"), passwordFieldUser);
+                content.getChildren().addAll(passwordFieldUser);
                 dialog.getDialogPane().setContent(content);
+                dialog.getDialogPane().getStylesheets().add(getClass().getResource("/styles/update.css").toExternalForm());
         
                 dialog.setResultConverter(dialogButton -> {
                     if (dialogButton == okButtonType) {
