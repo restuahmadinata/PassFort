@@ -96,6 +96,6 @@ Kelas UserAppData menggunakan akses modifier private untuk variabel instance dan
 
 
 ## Pengujian Aplikasi
-![Table1](https://github.com/restuahmadinata/PassFort/blob/main/readme/table1.png)
-![Table2](https://github.com/restuahmadinata/PassFort/blob/main/readme/table2.png)
-![Table3](https://github.com/restuahmadinata/PassFort/blob/main/readme/table3.png)
+![Table1](https://github.com/restuahmadinata/PassFort/blob/main/readme/tabel1.png)
+![Table2](https://github.com/restuahmadinata/PassFort/blob/main/readme/tabel2.png)
+![Table3](https://github.com/restuahmadinata/PassFort/blob/main/readme/tabel3.png)
