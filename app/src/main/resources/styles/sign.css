@@ -169,10 +169,8 @@
 }
 
 #signButton:hover {
-    -fx-background-color: transparent;
     -fx-border-color: #6767ee;
 
-    background-color: transparent;
     border-color: #6767ee;
 }
 
@@ -181,11 +179,11 @@
 }
 
 .field:hover {
-    -fx-border-color: #6767ee; /* Ubah warna border saat field dihover */
-    -fx-transition: border-color 0.3s; /* Animasi transisi */
+    -fx-border-color: #6767ee;
+    border-color: #6767ee;
 }
 
 #showPass .box:hover {
-    -fx-border-color: #6767ee; /* Ubah warna border saat field dihover */
-    -fx-transition: border-color 0.3s; /* Animasi transisi */
+    -fx-border-color: #6767ee;
+    border-color: #6767ee;
 }

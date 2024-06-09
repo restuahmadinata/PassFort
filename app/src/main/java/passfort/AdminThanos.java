@@ -44,18 +44,20 @@ public class AdminThanos {
 
         Button delete = new Button("BITES!");
         delete.setId("delete");
+
         delete.setOnAction(event -> {
             String username = userField.getText();
             if (username.isEmpty()) {
                 showAlert(Alert.AlertType.ERROR, "Input Error", "Username field must not be empty!");
                 return;
             }
-
-            if (username.equals("miraiKuriyama")) {
+        
+            String role = contactController.getUserRole(username);
+            if ("Admin".equals(role)) {
                 showAlert(Alert.AlertType.ERROR, "Deletion Error", "Admin account cannot be deleted.");
                 return;
             }
-
+        
             try {
                 if (contactController.isUsernameTaken(username)) {
                     Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -78,6 +80,7 @@ public class AdminThanos {
                 showAlert(Alert.AlertType.ERROR, "Database Error", "Could not connect to the database. Please try again later.");
             }
         });
+        
 
         VBox fieldButtonContainer = new VBox();
         fieldButtonContainer.getChildren().addAll(fieldLabel, userField, delete);

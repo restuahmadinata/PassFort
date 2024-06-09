@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import java.sql.SQLException;
+import java.util.Optional;
 import org.sqlite.SQLiteException;
 import passfort.com.example.controller.ContactController;
 
@@ -215,22 +216,52 @@ public class CreateScene {
                 return;
             }
             
-            ContactController contactController = new ContactController();
-            try {
-                boolean userExists = contactController.checkUserExistsForApp(username, apps, userId);
-                
-                if (userExists) {
-                    showAlert(Alert.AlertType.ERROR, "Error", "User Already Exists. The user already exists in the AppDatabase.");
-                } else {
-                    contactController.insertUserToAppDatabase(userId, username, password, apps);
-                    showAlert(Alert.AlertType.INFORMATION, "Success", "User Added. The user has been added successfully to AppDatabase.");
+            Dialog<String> dialog = new Dialog<>();
+            dialog.setTitle("Password Verification");
+            dialog.setHeaderText("Please enter your password to proceed with adding a new account.");
+
+            ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
+    
+            PasswordField passwordFieldUser = new PasswordField();
+            passwordFieldUser.setPromptText("Password");
+    
+            VBox content = new VBox();
+            content.setSpacing(10);
+            content.getChildren().addAll(passwordFieldUser);
+            dialog.getDialogPane().setContent(content);
+            dialog.getDialogPane().getStylesheets().add(getClass().getResource("/styles/create.css").toExternalForm());
+    
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == okButtonType) {
+                    return passwordFieldUser.getText();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                showAlert(Alert.AlertType.ERROR, "Error", "Database Error. Failed to add user to AppDatabase.");
-            }
+                return null;
+            });
+
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(currentPassword -> {
+                ContactController contactController = new ContactController();
+                try {
+                    boolean passwordCorrect = contactController.verifyPassword(userId, currentPassword);
+                    if (passwordCorrect) {
+                        boolean userExists = contactController.checkUserExistsForApp(username, apps, userId);
+
+                        if (userExists) {
+                            showAlert(Alert.AlertType.ERROR, "Error", "User Already Exists.");
+                        } else {
+                            contactController.insertUserToAppDatabase(userId, username, password, apps);
+                            showAlert(Alert.AlertType.INFORMATION, "Success", "User Added Successfully.");
+                        }
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Incorrect Password. Please try again.");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    showAlert(Alert.AlertType.ERROR, "Error", "Database Error.");
+                }
+            });
         });
-        
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {

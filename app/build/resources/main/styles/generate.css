@@ -101,12 +101,19 @@
     -fx-background-color: transparent;
     -fx-border-color: white;
     -fx-border-width: 1px;
+    -fx-border-radius: 2px;
 
     /* Standard Property */
     font-size: 24px;
     background-color: transparent;
     border-color: white;
     border-width: 0px 0px 1px 0px;
+    border-radius: 2px;
+}
+
+#charField:hover {
+    -fx-border-color: #6767ee;
+    border-color: #6767ee;
 }
 
 #charPrompt {
@@ -141,12 +148,14 @@
     -fx-pref-width: 30px;
     -fx-border-color: white;
     -fx-border-width: 1px;
+    -fx-border-radius: 2px;
 
     /* Standard Property */
     background-color: transparent;
     padding: 10;
     border-color: white;
     border-width: 1px;
+    border-radius: 2px;
 }
 
 .optionsBox .text {
@@ -156,6 +165,11 @@
     /* Standard Property */
     fill: white;
     font-size: 16px;
+}
+
+.optionsBox .box:hover {
+    -fx-border-color: #6767ee;
+    border-color: #6767ee;
 }
 
 #outputField {
@@ -172,6 +186,11 @@
     border-width: 0px 0px 1px 0px;
 }
 
+#outputField:hover {
+    -fx-border-color: #6767ee;
+    border-color: #6767ee;
+}
+
 #generateButton {
     -fx-background-color: #3A3E5D;
     -fx-text-fill: white;
@@ -186,6 +205,11 @@
     background-color: #3A3E5D;
 }
 
+#generateButton:hover {
+    -fx-background-color: #4e4e76;
+    background-color: #4e4e76;
+}
+
 #copyButton {
     -fx-background-color: #3A3E5D;
     -fx-text-fill: white;
@@ -198,6 +222,11 @@
     /* Standard Property */
     font-size: 16px;
     background-color: #3A3E5D;
+}
+
+#copyButton:hover {
+    -fx-background-color: #4e4e76;
+    background-color: #4e4e76;
 }
 
 .dialog-pane {

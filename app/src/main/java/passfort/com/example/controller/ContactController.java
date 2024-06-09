@@ -65,7 +65,7 @@ public class ContactController {
     public String[] getUserDataForApp(String appName) throws SQLException {
         String sql = "SELECT username, password FROM UserAppData WHERE apps = ?";
         try (Connection conn = DatabaseConnection.connectToAppDatabase();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, appName);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -83,7 +83,7 @@ public class ContactController {
     public boolean isUsernameTaken(String username) throws SQLException {
         String query = "SELECT COUNT(*) FROM users WHERE username = ?";
         try (Connection conn = DatabaseConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, username);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -100,7 +100,7 @@ public class ContactController {
     public boolean checkUserExists(String username) {
         String query = "SELECT COUNT(*) FROM users WHERE username = ?";
         try (Connection conn = DatabaseConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, username);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -117,15 +117,21 @@ public class ContactController {
         if (!checkUserExists(username)) {
             return 0; 
         } 
-
+    
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
         try (Connection conn = DatabaseConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getInt("id");
+                    String role = rs.getString("role");
+                    int userId = rs.getInt("id");
+    
+                    if ("Admin".equals(role)) {
+                        return -userId;
+                    }
+                    return userId;
                 }
             }
         } catch (SQLException e) {
@@ -133,12 +139,18 @@ public class ContactController {
         }
         return -1; 
     }
+    
 
     public boolean deleteUserByUsername(String username) {
         String sql = "DELETE FROM users WHERE username = ?";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
+            String role = getUserRole(username);
+            if ("Admin".equals(role)) {
+                System.out.println("Admin account cannot be deleted.");
+                return false;
+            }
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
@@ -178,7 +190,7 @@ public class ContactController {
     public void updateUser(int id, String username, String password) {
         String sql = "UPDATE users SET username = ?, password = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             pstmt.setInt(3, id);
@@ -192,7 +204,7 @@ public class ContactController {
     public void deleteUser(int id) {
         String sql = "DELETE FROM users WHERE id = ?";
         try (Connection conn = DatabaseConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
             System.out.println("User data deleted successfully.");
@@ -253,6 +265,7 @@ public class ContactController {
             throw e;
         }
     }
+
     public ObservableList<UserAppData> selectAllUserAppData() {
         String sql = "SELECT userId, username, password, apps FROM UserAppData";
         ObservableList<UserAppData> userAppDataList = FXCollections.observableArrayList();
@@ -303,7 +316,7 @@ public class ContactController {
     public String getUserFullName(int userId) {
         String sql = "SELECT fullName FROM users WHERE id = ?";
         try (Connection conn = DatabaseConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, userId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -319,7 +332,7 @@ public class ContactController {
     public void updateUserPassword(int userId, String newPassword) {
         String sql = "UPDATE users SET password = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, newPassword);
             pstmt.setInt(2, userId);
             pstmt.executeUpdate();
@@ -332,12 +345,11 @@ public class ContactController {
     public boolean verifyPassword(int userId, String inputPassword) {
         String sql = "SELECT password FROM users WHERE id = ?";
         try (Connection conn = DatabaseConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, userId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     String storedPassword = rs.getString("password");
-                    // Gunakan operasi pembanding sederhana untuk memeriksa kesesuaian password
                     return inputPassword.equals(storedPassword);
                 }
             }
@@ -346,6 +358,22 @@ public class ContactController {
         }
         return false;
     }
-    
 
+    
+    public String getUserRole(String username) {
+        String sql = "SELECT role FROM users WHERE username = ?";
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("role");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }
+

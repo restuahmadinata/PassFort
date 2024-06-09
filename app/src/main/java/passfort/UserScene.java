@@ -8,12 +8,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import passfort.com.example.controller.ContactController;
 import org.sqlite.SQLiteException;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,7 +134,7 @@ public class UserScene {
         Label infoTitle = new Label("USER PROFILE");
         infoTitle.setId("infoTitle");
 
-        Label infoSubtitle = new Label("This is you");
+        Label infoSubtitle = new Label("This is you.");
         infoSubtitle.setId("infoSubtitle");
 
         titleContainer.getChildren().addAll(infoTitle, infoSubtitle);
@@ -153,24 +151,8 @@ public class UserScene {
         Label greetingLabel = new Label("Hello, " + fullName + "!");
         greetingLabel.setId("greetingLabel");
 
-        Button changePhotoButton = new Button("Change Photo");
-        changePhotoButton.setId("changePhotoButton");
-        changePhotoButton.setOnAction(e -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Select Photo");
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
-            );
-
-            File selectedFile = fileChooser.showOpenDialog(primaryStage);
-            if (selectedFile != null) {
-                Image newImage = new Image(selectedFile.toURI().toString());
-                imageView.setImage(newImage);
-            }
-        });
-
-        Button changePasswordButton = new Button("Change Password");
-        changePasswordButton.setId("changePasswordButton");
+        Button changePasswordButton = new Button("CHANGE PASSWORD");
+        changePasswordButton.getStyleClass().add("userButton");
 
         changePasswordButton.setOnAction(e -> {
             PasswordField oldPasswordField = new PasswordField();
@@ -241,7 +223,7 @@ public class UserScene {
         });
 
         VBox userContainer = new VBox();
-        userContainer.getChildren().addAll(imageContainer, greetingLabel, changePhotoButton, changePasswordButton);
+        userContainer.getChildren().addAll(imageContainer, greetingLabel, changePasswordButton);
         userContainer.setSpacing(30);
         userContainer.setAlignment(Pos.CENTER);
 

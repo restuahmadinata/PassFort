@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import passfort.com.example.controller.ContactController;
 
 public class LoginScene {
@@ -64,15 +65,22 @@ public class LoginScene {
         passwordTextField.setPrefWidth(350);
         passwordTextField.setPrefHeight(20);
 
+        Tooltip passwordTooltip = new Tooltip("Remember to securely store your password!\n\nUse another media like notes, paper or something else.");
+        passwordTooltip.setShowDelay(Duration.seconds(0.3));
+        passwordTooltip.setShowDuration(Duration.seconds(60));
+        Tooltip.install(passwordTextField, passwordTooltip);
+
         TextField textField = new TextField();
         textField.getStyleClass().add("field");
         textField.setPrefWidth(350);
         textField.setPrefHeight(20);
         textField.setManaged(false);
         textField.setVisible(false);
+        textField.setTooltip(passwordTooltip);
 
         CheckBox showPasswordCheckBox = new CheckBox("Show");
         showPasswordCheckBox.setId("showPass");
+
 
         textField.managedProperty().bind(showPasswordCheckBox.selectedProperty());
         textField.visibleProperty().bind(showPasswordCheckBox.selectedProperty());
@@ -89,7 +97,7 @@ public class LoginScene {
         formContainer.setSpacing(30);
         formContainer.setAlignment(Pos.CENTER);
 
-        Button loginButton = new Button("SIGN IN");
+        Button loginButton = new Button("LOG IN");
         loginButton.setId("loginButton");
         
         loginButton.setOnAction(v -> {
@@ -103,24 +111,21 @@ public class LoginScene {
                 int authResult = contactController.authenticateUser(username, password);
                 
                 if (authResult > 0) {
-                    if (username.equals("miraiKuriyama") && password.equals("alifrestuzakiya999")) {
-                        showAlert(Alert.AlertType.INFORMATION, "Success", "Admin has been logged in!");
-                        AdminScene adminScene = new AdminScene(primaryStage, authResult);
-                        adminScene.show();
-                    } else {
-                        showAlert(Alert.AlertType.INFORMATION, "Success", "User logged in successfully!");
-                        DatabaseScene databaseScene = new DatabaseScene(primaryStage, authResult);
-                        try {
-                            databaseScene.show();
-                        } catch (SQLiteException e) {
-                            e.printStackTrace();
-                        }
+                    showAlert(Alert.AlertType.INFORMATION, "Success", "User logged in successfully!");
+                    DatabaseScene databaseScene = new DatabaseScene(primaryStage, authResult);
+                    try {
+                        databaseScene.show();
+                    } catch (SQLiteException e) {
+                        e.printStackTrace();
                     }
-        
-                } else if (authResult == -1) {
-                    showAlert(Alert.AlertType.ERROR, "Input Error", "Wrong password!");
-                } else {
+                } else if (authResult < 0) {
+                    showAlert(Alert.AlertType.INFORMATION, "Success", "Admin has been logged in!");
+                    AdminScene adminScene = new AdminScene(primaryStage, -authResult);
+                    adminScene.show();
+                } else if (authResult == 0) {
                     showAlert(Alert.AlertType.ERROR, "Input Error", "Account not found!");
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Input Error", "Wrong password!");
                 }
             }
         });
@@ -133,8 +138,28 @@ public class LoginScene {
             signScene.show();
         });
 
+        Button forgotPasswordButton = new Button("Forgot Password?");
+        forgotPasswordButton.setId("forgotPasswordButton");
+
+        Tooltip forgotPasswordTooltip = new Tooltip("Really? Even though I've reminded you.");
+        forgotPasswordTooltip.setShowDelay(Duration.seconds(0.3));
+        forgotPasswordTooltip.setShowDuration(Duration.seconds(5));
+        Tooltip.install(forgotPasswordButton, forgotPasswordTooltip);
+
+        forgotPasswordButton.setOnMouseEntered(e -> {
+            forgotPasswordTooltip.show(forgotPasswordButton, e.getScreenX(), e.getScreenY() + 10);
+        });
+        forgotPasswordButton.setOnMouseExited(e -> {
+            forgotPasswordTooltip.hide();
+        });
+
+        forgotPasswordButton.setOnAction(event -> {
+            showAlert(Alert.AlertType.INFORMATION, "Forgot Password", 
+                    "Please contact support for password recovery assistance.\n\n- Dev Whatsapp - 087723390480");
+        });
+
         VBox buttonContainer = new VBox();
-        buttonContainer.getChildren().addAll(loginButton, signButton);
+        buttonContainer.getChildren().addAll(loginButton, signButton, forgotPasswordButton);
         buttonContainer.setSpacing(20);
         buttonContainer.setAlignment(Pos.CENTER);
 

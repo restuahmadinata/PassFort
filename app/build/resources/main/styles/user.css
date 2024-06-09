@@ -147,7 +147,7 @@
     background-color: #444;
 }
 
-#changePasswordButton {
+.userButton {
     -fx-background-color: #3A3E5D;
     -fx-text-fill: white;
     -fx-font-size: 20px;
@@ -161,16 +161,7 @@
     background-color: #3A3E5D;
 }
 
-#changePhotoButton {
-    -fx-background-color: #3A3E5D;
-    -fx-text-fill: white;
-    -fx-font-size: 20px;
-    -fx-pref-width: 286px;
-    -fx-pref-height: 64px;
-    -fx-background-radius: 10px;
-    -fx-effect: dropshadow(gaussian, rgba(29, 29, 45, 0.281), 14, 0, 0, 4);
-
-    /* Standard Property */
-    font-size: 16px;
-    background-color: #3A3E5D;
+.userButton:hover {
+    -fx-background-color: #4e4e76;
+    background-color: #4e4e76;
 }

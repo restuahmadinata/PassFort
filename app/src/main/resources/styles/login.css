@@ -74,6 +74,7 @@
 
 .field:hover {
     -fx-border-color: #6767ee;
+    border-color: #6767ee;
 }
 
 
@@ -113,6 +114,11 @@
     font-size: 16px;
 }
 
+#showPass .box:hover {
+    -fx-border-color: #6767ee;
+    border-color: #6767ee;
+}
+
 #loginButton {
     -fx-background-color: transparent;
     -fx-text-fill: white;
@@ -142,10 +148,8 @@
 }
 
 #loginButton:hover {
-    -fx-background-color: transparent;
     -fx-border-color: #6767ee;
 
-    background-color: transparent;
     border-color: #6767ee;
 }
 
@@ -199,4 +203,16 @@
 .dialog-pane .button:hover {
     -fx-background-color: #4e4e76;
     background-color: #4e4e76;
+}
+
+#forgotPasswordButton {
+    -fx-background-color: transparent;
+    -fx-text-fill:rgb(118, 118, 250);
+    -fx-font-size: 16px;
+    background-color: transparent;
+    font-size: 16px;
+}
+
+#forgotPasswordButton:hover {
+    -fx-text-fill: #4545ac;
 }

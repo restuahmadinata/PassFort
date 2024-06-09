@@ -72,10 +72,20 @@
     border-radius: 10px;
 }
 
+.adminButton:hover {
+    -fx-border-color: #6767ee;
+
+    border-color: #6767ee;
+}
+
 #exit {
     -fx-background-color: transparent;
     -fx-text-fill:rgb(118, 118, 250);
     -fx-font-size: 16px;
     background-color: transparent;
     font-size: 16px;
+}
+
+#exit:hover {
+    -fx-text-fill: #4545ac;
 }

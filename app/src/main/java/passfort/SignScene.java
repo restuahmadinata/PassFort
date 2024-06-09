@@ -34,7 +34,7 @@ public class SignScene {
         Label formTitle = new Label("PASSFORT");
         formTitle.setId("formTitle");
 
-        Label formSubtitle = new Label("- a minimalist password manager- ");
+        Label formSubtitle = new Label("- a minimalist password manager -");
         formSubtitle.setId("formSubtitle");
         titleContainer.getChildren().addAll(greeting, formTitle, formSubtitle);
         titleContainer.setSpacing(3);
@@ -148,7 +148,7 @@ public class SignScene {
             }
         });
 
-        Button loginButton = new Button("Already have an account? Sign In!");
+        Button loginButton = new Button("Already have an account? Log In!");
         loginButton.setId("loginButton");
 
         loginButton.setOnAction(v -> {

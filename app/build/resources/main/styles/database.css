@@ -123,6 +123,11 @@
     background-color: #3A3E5D;
 }
 
+#showPass:hover {
+    -fx-background-color: #4e4e76;
+    background-color: #4e4e76;
+}
+
 .table-view {
     -fx-background-color: #1F1E2C;
     -fx-table-cell-border-color: transparent;
@@ -148,7 +153,9 @@
 
 .table-view .column-header .label {
     -fx-text-fill: #ffffff;
-    -fx-font-size: 16px
+    -fx-font-size: 16px;
+
+    font-size: 14px;
 }
 
 .table-view .table-row-cell {
@@ -157,6 +164,7 @@
     -fx-font-size: 14px; /* Perbesar ukuran teks */
 
     background-color: #1F1E2C;
+    font-size: 14px;
 }
 
 .table-view .table-row-cell:filled {
@@ -171,6 +179,7 @@
     -fx-font-size: 14px;
 
     background-color: #1F1E2C;
+    font-size: 14px;
 }
 
 .table-view .table-row-cell:odd {

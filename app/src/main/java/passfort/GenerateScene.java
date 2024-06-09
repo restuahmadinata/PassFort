@@ -20,15 +20,12 @@ public class GenerateScene {
     }
 
     public void show() throws SQLiteException {
-        // Create the main layout
         BorderPane mainLayout = new BorderPane();
 
-        // Create the menu
         VBox menu = new VBox();
         menu.setSpacing(10);
         menu.setId("menu");
 
-        // Create menu items
         Label menuTitle = new Label("MENU");
         menuTitle.setId("menuTitle");
 
