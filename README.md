@@ -17,7 +17,7 @@ Nama Anggota :
   2. Muhammad Aqsa Ramadhan
 
 ## Executive Summary
-PassFort adalah sebuah aplikasi Password Manager yang dirancang untuk membantu masyarakat Indonesia (atau orang asing juga bisa) yang sering mengalami lupa kata sandi, terutama untuk akun-akunpenting seperti Gmail, Facebook, Instagram, dan aplikasi lainnya yang memerlukan keamanan tinggi
+PassFort adalah sebuah aplikasi Password Manager yang dirancang untuk membantu masyarakat Indonesia (atau orang asing juga bisa) yang sering mengalami lupa kata sandi, terutama untuk akun-akunpenting seperti Gmail, Facebook, Instagram, dan aplikasi lainnya yang memerlukan keamanan tinggi.
 
 ### 1. Masalah
 Di era digital saat ini, pengguna internet semakin banyak memiliki berbagai akun online untuk berbagai keperluan seperti media sosial, email, dan lain-lain. Setiap akun ini pasti memerlukan kata sandi yang kuat untuk menjaga keamanan informasi pribadi. Masalah utama yang sering dihadapi pengguna salah satunya adalah sering mengalami lupa kata sandi, terutama untuk akun-akun penting seperti Gmail, Facebook, Instagram, dan aplikasi lainnya yang memerlukan keamanan tinggi.
@@ -33,7 +33,7 @@ Dengan demikian, pengguna tidak perlu lagi menggunakan kata sandi yang sama untu
 4. Dapat meng-update password akun yang sudah ada padaAppDatabase.
 5. Dapat menghapus akun yang dibuat oleh user pada AppDatabase.
 6. Menampilkan tabel/database akun yang telah dibuat oleh user pada AppDatabase.
-7. Menampilkan profil user (masih pengembangan)
+7. Menampilkan profil user dengan fitur ganti password User
 8. Menampilkan profil developer pada About Us.
 9. Akun admin dapat menghapus akun user pada UserDatabase.
 
