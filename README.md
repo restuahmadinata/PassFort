@@ -61,4 +61,41 @@ Kelas UserAppData menggunakan akses modifier private untuk variabel instance dan
 
 ## Screenshots
 
+### *Sign Scene*
+![Sign Scene](https://github.com/restuahmadinata/PassFort/blob/main/readme/signScene.png)
+
+### *Login Scene*
+![Login Scene](https://github.com/restuahmadinata/PassFort/blob/main/readme/loginScene.png)
+
+### *Admin Scene*
+![Admin Scene](https://github.com/restuahmadinata/PassFort/blob/main/readme/adminScene.png)
+
+### *Admin Thanos*
+![Admin Thanos](https://github.com/restuahmadinata/PassFort/blob/main/readme/adminThanos.png)
+
+### *Create Scene*
+![Create Scene](https://github.com/restuahmadinata/PassFort/blob/main/readme/createScene.png)
+
+### *Update Scene*
+![Update Scene](https://github.com/restuahmadinata/PassFort/blob/main/readme/updateScene.png)
+
+### *Delete Scene*
+![Delete Scene](https://github.com/restuahmadinata/PassFort/blob/main/readme/deleteScene.png)
+
+### *Generate Scene*
+![Generate Scene](https://github.com/restuahmadinata/PassFort/blob/main/readme/generateScene.png)
+
+### *Database Scene*
+![Database Scene](https://github.com/restuahmadinata/PassFort/blob/main/readme/databaseScene.png)
+
+### *User Scene*
+![User Scene](https://github.com/restuahmadinata/PassFort/blob/main/readme/userScene.png)
+
+### *About Scene*
+![About Scene](https://github.com/restuahmadinata/PassFort/blob/main/readme/aboutScene.png)
+
+
 ## Pengujian Aplikasi
+![Table1](https://github.com/restuahmadinata/PassFort/blob/main/readme/table1.png)
+![Table2](https://github.com/restuahmadinata/PassFort/blob/main/readme/table2.png)
+![Table3](https://github.com/restuahmadinata/PassFort/blob/main/readme/table3.png)
